@@ -5,11 +5,15 @@ class UI {
     }
 
     private static function getNotfoundPage() {
-        return file_get_contents(PATH."ui/notfound.html");
+        return file_get_contents(PATH."/ui/notfound.html");
     }
 
     private static function getLoginPage() {
-        
+        return file_get_contents(PATH."/ui/loginpage.html");
+    }
+
+    private static function getRegistrationPage() {
+        return file_get_contents(PATH."/ui/registrationpage.html");
     }
 
     private static function getTutorsPage() {
@@ -21,9 +25,10 @@ class UI {
             "<!DOCTYPE html>
             <html>
                 <head>
-                    <meta charset=\"utf-8\" />
+                    <meta charset=\"utf-8\"/>
                     <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">
                     <title>$title</title>
+                    <link rel=\"stylesheet\" href=\"styles/bootstrap.min.css\">
                     <link rel=\"stylesheet\" href=\"styles/normalize.css\"/>
                     <link rel=\"stylesheet\" href=\"styles/style.css\"/>
                 </head>
@@ -34,11 +39,9 @@ class UI {
                     <nav class=\"sidebar\">
                         $sidebar
                     </nav>
-                    <div class=\"page-content\">
-                        <main class=\"main-content container\">
-                            $content
-                        </main>
-                    </div>
+                    <main class=\"main-content container\">
+                        $content
+                    </main>
                 </body>
                 <footer class=\"footer\">
                     $footer
@@ -50,20 +53,21 @@ class UI {
         switch ($page) {
             case "main":
                 return self::getMainPage();
+            case "login":
+                return self::getLoginPage();
+            case "registration":
+                return self::getRegistrationPage();
             default:
                 return self::getNotfoundPage();
         }
     }
 
     public static function getFooter() {
-        return 
-        '<div class="container">
-            <p>Пермь, ПГНИУ, 30 апреля 2020.<br>Склёпано на коленке криворуким студентом© по best practice.</p>
-        </div>';
+        return file_get_contents(PATH."/ui/footer.html");
     }
 
     public static function getHeader() {
-        return "<p>Header</p>";
+        return file_get_contents(PATH."/ui/header.html");
     }
 
     public static function getSidebar() {
