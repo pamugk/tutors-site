@@ -31,7 +31,7 @@ class Database {
         return true;
     }
 
-    private function executePreparedSelect($name, $query, $params) {
+    private function executePreparedQuery($name, $query, $params) {
         $db_link = $this->db_link;
         pg_prepare($db_link, $name, $query);
         return pg_execute($db_link, $name, $params);
@@ -42,7 +42,17 @@ class Database {
     }
 
     public function getPathPage($path) {
-        return self::executePreparedSelect("getPathPage", 'SELECT page FROM site.pages WHERE route = $1', array($path));
+        return self::executePreparedQuery("getPathPage", 'SELECT page FROM site.pages WHERE route = $1;', array($path));
+    }
+
+    public function loginExists($login) {
+        return false;
+    }
+
+    public function registerUser($userInfo) {
+        self::executePreparedQuery('createUser', 
+        'INSERT INTO "data".users(login, hash, "name", surname, patronymic, is_tutor) VALUES($1, $2, $3, $4, $5, $6);', 
+        $userInfo);
     }
 }
 ?>

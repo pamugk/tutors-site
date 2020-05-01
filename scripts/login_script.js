@@ -15,7 +15,7 @@ const Login = {
     },
 
     async login() {
-        fetch(`http://localhost:8080/login`, 
+        fetch(`http://localhost:8080/backend/login.php`, 
             { 
                 method: 'post',
                 body: new FormData(this.formElement)

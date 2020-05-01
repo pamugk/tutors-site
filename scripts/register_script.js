@@ -15,13 +15,13 @@ const Register = {
     },
 
     async registrate() {
-        fetch(`http://localhost:8080/registration`, 
+        fetch(`http://localhost:8080/backend/registration.php`, 
             { 
                 method: 'post',
                 body: new FormData(this.formElement)
             })
             .then(response => {
-                if (response.status == 200)
+                if (response.status == 201)
                     window.location.replace("http://localhost:8080/");
                 else response.json().then(data => this.showError(data.error));
             })

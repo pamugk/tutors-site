@@ -39,8 +39,8 @@ class Config {
         $cfg['db_host'] = 'localhost';
         $cfg['db_port'] = '5432';
         $cfg['db_base'] = 'tutors';
-        $cfg['db_user'] = 'client';
-        $cfg['db_pass'] = 'пороль';
+        $cfg['db_user'] = 'postgres';
+        $cfg['db_pass'] = '4815162342';
 
         return $cfg;
     }
@@ -69,7 +69,6 @@ class Config {
         $cfg_file = fopen($filepath, 'w+');
 
         fputs($cfg_file, "<?php \n");
-        fputs($cfg_file, "if(!defined('VALID_CMS')) { die('ACCESS DENIED'); } \n");
         fputs($cfg_file, '$_CFG = array();' . "\n");
 
         foreach ($_CFG as $key => $value) {
