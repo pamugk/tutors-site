@@ -15,6 +15,14 @@ class Validator {
         foreach (self::$requiredLoginFields as $key => $value)
             if (!array_key_exists($key, $info) || $info[$key] === '')
                 return "Не заполнено поле '$value'";
+        Database::reinitializeConnection();
+        $result = Database::getInstance()->getCredentials($info['login']);
+        $row = pg_fetch_array($result);
+        Database::getInstance()->freeResult($result);
+        if (!$row)
+            return "Пользователь с указанным логином не найден";
+        $verified = password_verify($info['password'], $row[0]);
+        return $verified ? false : "Неверный пароль";
     }
 
     public static function validateRegistrationInfo($info) {

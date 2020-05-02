@@ -8,14 +8,18 @@ body {
     align-items: stretch;
     color: #343434;
     color: var(--black-color);
+    display: flex;
+    flex-direction: column;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1rem;
+    height: 100%;
+}
+
+main {
+    display: flex;
+    flex-grow: 1;
 }
 
 .footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: auto;
     background-color: #f5f5f5;
 }

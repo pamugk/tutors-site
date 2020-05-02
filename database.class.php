@@ -41,16 +41,23 @@ class Database {
         pg_free_result($result);
     }
 
+    public function getCredentials($login) {
+        return $this::executePreparedQuery("getCredentials", 'SELECT hash FROM "data".users WHERE login=$1', array($login));
+    }
+
     public function getPathPage($path) {
-        return self::executePreparedQuery("getPathPage", 'SELECT page FROM site.pages WHERE route = $1;', array($path));
+        return $this::executePreparedQuery("getPathPage", 'SELECT page FROM site.pages WHERE route = $1;', array($path));
     }
 
     public function loginExists($login) {
-        return false;
+        $result = $this::executePreparedQuery("loginExists", 'SELECT EXISTS (SELECT * FROM "data".users WHERE login=$1);', array($login));
+        $exists = pg_fetch_array($result)[0] == 'true';
+        $this::freeResult($result);
+        return $exists;
     }
 
     public function registerUser($userInfo) {
-        self::executePreparedQuery('createUser', 
+        $this::executePreparedQuery('createUser',
         'INSERT INTO "data".users(login, hash, "name", surname, patronymic, is_tutor) VALUES($1, $2, $3, $4, $5, $6);', 
         $userInfo);
     }
