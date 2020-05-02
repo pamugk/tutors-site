@@ -1,4 +1,6 @@
 <?php
+require_once PATH."/libs/Smarty.class.php";
+
 class UI {
     private static function getMainPage() {
         return file_get_contents(PATH."/ui/mainpage.html");
@@ -18,6 +20,13 @@ class UI {
 
     private static function getTutorsPage() {
         
+    }
+
+    public static function compilePage($page, $parameters) {
+        $smarty = new Smarty();
+        foreach ($parameters as $name=>$value)
+            $smarty->assign($name, $value);
+        return $smarty->fetch("eval:$page");
     }
 
     public static function constructPage($title, $header, $sidebar, $content, $footer) {
@@ -46,6 +55,8 @@ class UI {
                 <footer class=\"footer\">
                     $footer
                 </footer>
+                <script defer src=\"/scripts/fontawesome/solid.min.js\"></script>
+                <script defer src=\"/scripts/fontawesome/fontawesome.min.js\"></script>
             </html>";
     }
 

@@ -11,5 +11,6 @@ else {
     $page = !$row ? "404" : $row[0];
     Database::getInstance()->freeResult($result);
 }
-print(UI::constructPage("Title", UI::getHeader(), UI::getSidebar(), UI::getContent($page), UI::getFooter()));
+$template = UI::constructPage("Title", UI::getHeader(), UI::getSidebar(), UI::getContent($page), UI::getFooter());
+print(UI::compilePage($template, array('user' => null)));
 ?>
