@@ -18,6 +18,14 @@ class UI {
         return file_get_contents(PATH."/ui/registrationpage.html");
     }
 
+    private static function getPersonalPage() {
+        return file_get_contents(PATH."/ui/personalpage.html");
+    }
+
+    private static function getTutorPage() {
+        return file_get_contents(PATH."/ui/tutor.html");
+    }
+
     private static function getTutorsPage() {
         
     }
@@ -41,20 +49,20 @@ class UI {
                     <link rel=\"stylesheet\" href=\"styles/normalize.css\"/>
                     <link rel=\"stylesheet\" href=\"styles/style.css\"/>
                 </head>
-                <header>
-                    $header
-                </header>
                 <body>
+                    <header>
+                        $header
+                    </header>
                     <nav class=\"sidebar\">
                         $sidebar
                     </nav>
                     <main class=\"main-content container\">
                         $content
                     </main>
+                    <footer class=\"footer\">
+                        $footer
+                    </footer>
                 </body>
-                <footer class=\"footer\">
-                    $footer
-                </footer>
                 <script defer src=\"/scripts/fontawesome/solid.min.js\"></script>
                 <script defer src=\"/scripts/fontawesome/fontawesome.min.js\"></script>
             </html>";
@@ -68,6 +76,10 @@ class UI {
                 return self::getLoginPage();
             case "registration":
                 return self::getRegistrationPage();
+            case "personal":
+                return self::getPersonalPage();
+            case "tutor":
+                return self::getTutorPage();
             default:
                 return self::getNotfoundPage();
         }

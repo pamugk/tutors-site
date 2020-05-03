@@ -42,11 +42,18 @@ class Database {
     }
 
     public function getCredentials($login) {
-        return $this::executePreparedQuery("getCredentials", 'SELECT hash FROM "data".users WHERE login=$1', array($login));
+        return $this::executePreparedQuery("getCredentials", 'SELECT id, hash FROM "data".users WHERE login=$1', array($login));
     }
 
     public function getPathPage($path) {
         return $this::executePreparedQuery("getPathPage", 'SELECT page FROM site.pages WHERE route = $1;', array($path));
+    }
+
+    public function getUserBySession($sessionId) {
+        return $this::executePreparedQuery("getUserBySession", 
+        'WITH usr AS (SELECT user_id FROM "data".sessions WHERE id = $1 AND is_active AND expiration < NOW()) 
+        SELECT id, login, "name", surname, patronymic, is_tutor 
+        FROM "data".users, usr WHERE usr.user_id = id;', array($sessionId));
     }
 
     public function loginExists($login) {
@@ -54,6 +61,15 @@ class Database {
         $exists = pg_fetch_array($result)[0] == 'true';
         $this::freeResult($result);
         return $exists;
+    }
+
+    public function startSession($userId) {
+        return $this::executePreparedQuery('startSession', 
+        'INSERT INTO "data".sessions(user_id) VALUES($1) RETURNING id;', array($userId));
+    }
+
+    public function stopSession($sessionId) {
+        $this::executePreparedQuery('stopSession', 'UPDATE "data".sessions SET is_active=false WHERE id=$1;', array($sessionId));
     }
 
     public function registerUser($userInfo) {
