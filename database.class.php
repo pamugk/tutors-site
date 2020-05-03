@@ -50,10 +50,18 @@ class Database {
     }
 
     public function getUserBySession($sessionId) {
-        return $this::executePreparedQuery("getUserBySession", 
+        $result = $this::executePreparedQuery("getUserBySession", 
         'WITH usr AS (SELECT user_id FROM "data".sessions WHERE id = $1 AND is_active AND expiration < NOW()) 
         SELECT id, login, "name", surname, patronymic, is_tutor 
         FROM "data".users, usr WHERE usr.user_id = id;', array($sessionId));
+        $user = null;
+        if ($result) {
+            $row = pg_fetch_array($result);
+            $user = array("id" => $row[0], "login" => $row[1], "name" => $row[2], "surname" => $row[3], 
+            "patronymic" => $row[4], "isTutor" => $row[5]);
+            Database::getInstance()->freeResult($result);
+        }
+        return $user;
     }
 
     public function loginExists($login) {
