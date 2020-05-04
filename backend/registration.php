@@ -1,7 +1,6 @@
 <?php
 include_once "../database.class.php";
 include_once "../validator.class.php";
-session_start();
 $response_code = 418;
 $response = "";
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {

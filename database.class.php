@@ -49,16 +49,13 @@ class Database {
         return $this::executePreparedQuery("getPathPage", 'SELECT page FROM site.pages WHERE route = $1;', array($path));
     }
 
-    public function getUserBySession($sessionId) {
+    public function getUser($userId) {
         $result = $this::executePreparedQuery("getUserBySession", 
-        'WITH usr AS (SELECT user_id FROM "data".sessions WHERE id = $1 AND is_active AND expiration < NOW()) 
-        SELECT id, login, "name", surname, patronymic, is_tutor 
-        FROM "data".users, usr WHERE usr.user_id = id;', array($sessionId));
+        'SELECT login, name, surname, patronymic, is_tutor FROM "data".users WHERE id = $1;', array($userId));
         $user = null;
         if ($result) {
             $row = pg_fetch_array($result);
-            $user = array("id" => $row[0], "login" => $row[1], "name" => $row[2], "surname" => $row[3], 
-            "patronymic" => $row[4], "isTutor" => $row[5]);
+            $user = array("login" => $row[0], "name" => $row[1], "surname" => $row[2], "patronymic" => $row[3], "isTutor" => $row[4]);
             Database::getInstance()->freeResult($result);
         }
         return $user;

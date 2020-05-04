@@ -13,7 +13,7 @@ else {
 }
 $user = null;
 if (key_exists('ID',$_SESSION))
-    $user = Database::getInstance()->getUserBySession($_SESSION['ID']);
+    $user = Database::getInstance()->getUser($_SESSION['ID']);
 $template = UI::constructPage("Title", UI::getHeader(), UI::getSidebar(), UI::getContent($page), UI::getFooter());
 print(UI::compilePage($template, array('user' => $user)));
 ?>
