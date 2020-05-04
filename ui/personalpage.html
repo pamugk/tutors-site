@@ -9,31 +9,46 @@
         <img src="/images/avatar.png" class="img-thumbnail">
     </div>
     <div class="col">
-        <form>
-            <form action="POST" id="registration-form" class="card-body">
-                <div class="form-group">
-                    <label for="name-input">Имя:</label>
-                    <input type="text" name="name" class="form-control" id="name-input" placeholder="Имя">
-                </div>
-                <div class="form-group">
-                    <label for="surname-input">Фамилия:</label>
-                    <input type="text" name="surname" class="form-control" id="surname-input" placeholder="Фамилия">
-                </div>
-                <div class="form-group">
-                    <label for="patronymic-input">Отчество:</label>
-                    <input type="text" name="patronymic" class="form-control" id="patronymic-input" placeholder="Отчество">
-                </div>
+        <form id="personal-form" class="card-body">
+            <h4 class="card-header">Личный кабинет</h4>
+            <div id="error" class="alert alert-danger" style="display: none"></div>
+            <div class="form-group">
+                <label for="name-input">Имя:</label>
+                <input type="text" name="name" class="form-control" id="name-input" placeholder="Имя" value="{user.name}">
+            </div>
+            <div class="form-group">
+                <label for="surname-input">Фамилия:</label>
+                <input type="text" name="surname" class="form-control" id="surname-input" placeholder="Фамилия" value="{user.surname}>
+            </div>
+            <div class="form-group">
+                <label for="patronymic-input">Отчество:</label>
+                <input type="text" name="patronymic" class="form-control" id="patronymic-input" placeholder="Отчество" value="{user.patronymic}>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" name="isTutor" class="form-check-input" id="type-input" {if user.isTutor}checked{/if}>
+                <label class="form-check-label" for="type-input">Я репетитор</label>
+            </div>
+            <div class="form-group">
+                <label for="login-input">Логин:</label>
+                <input type="text" name="login" class="form-control" id="login-input" placeholder="Логин" value="{user.login}>
+            </div>
+            <div class="form-row">
                 <div class="form-check">
-                    <input type="checkbox" name="isTutor" class="form-check-input" id="type-input">
-                    <label class="form-check-label" for="type-input">Я репетитор</label>
+                    <input type="checkbox" name="changePassword" class="form-check-input" id="change-password-input" onchange=Update.checked(this)>
+                    <label class="form-check-label" for="change-password-input">Поменять пароль</label>
                 </div>
-                <div class="form-group">
-                    <label for="login-input">Логин:</label>
-                    <input type="text" name="login" class="form-control" id="login-input" placeholder="Логин">
+                <div class="form-group col">
+                    <label for="password-input">Пароль:</label>
+                    <input type="password" name="password" class="form-control" id="password-input" placeholder="******" disabled>
                 </div>
-                <input type="submit" class="btn btn-primary" value="Сохранить"/>
-            </form>
+                <div class="form-group col">
+                    <label for="password2-input">Повтор пароля:</label>
+                    <input type="password" name="password2" class="form-control" id="password2-input" placeholder="******" disabled>
+                </div>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Сохранить"/>
         </form>
     </div>
 </div>
+<script defer src="/scripts/login_script.js"></script>
 {/if}
