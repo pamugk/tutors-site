@@ -68,15 +68,6 @@ class Database {
         return $exists;
     }
 
-    public function startSession($userId) {
-        return $this::executePreparedQuery('startSession', 
-        'INSERT INTO "data".sessions(user_id) VALUES($1) RETURNING id;', array($userId));
-    }
-
-    public function stopSession($sessionId) {
-        $this::executePreparedQuery('stopSession', 'UPDATE "data".sessions SET is_active=false WHERE id=$1;', array($sessionId));
-    }
-
     public function registerUser($userInfo) {
         $this::executePreparedQuery('createUser',
         'INSERT INTO "data".users(login, hash, "name", surname, patronymic, is_tutor) VALUES($1, $2, $3, $4, $5, $6);', 
