@@ -1,3 +1,4 @@
+{if $user == null}
 <section class="card card-default w-50 mx-auto my-auto">
     <h4 class="card-header">Вход</h4>
     <div id="error" class="alert alert-danger" style="display: none"></div>
@@ -19,3 +20,8 @@
     </div>
 </section>
 <script defer src="/scripts/login_script.js"></script>
+{else}
+<div class="alert alert-info text-center mx-auto my-auto">
+    Вход уже был осуществлён.
+</div>
+{/if}

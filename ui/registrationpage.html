@@ -1,3 +1,4 @@
+{if $user == null}
 <section class="card card-default w-50 mx-auto my-auto">
     <h4 class="card-header">Регистрация</h4>
     <div id="error" class="alert alert-danger" style="display: none"></div>
@@ -39,3 +40,8 @@
     </div>
 </section>
 <script defer src="/scripts/register_script.js"></script>
+{else}
+<div class="alert alert-info text-center mx-auto my-auto">
+    Если у вас уже есть аккаунт, зачем вам ещё один?
+</div>
+{/if}

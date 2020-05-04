@@ -1,3 +1,9 @@
+{if $user == null}
+<div class="alert alert-danger text-center mx-auto my-auto">
+    Только авторизованные пользователи имеют доступ к личному кабинету.<br/>
+    Если у вас уже есть аккаунт - авторизуйтесь.
+</div>
+{else}
 <div class="container row my-2">
     <div class="col-2">
         <img src="/images/avatar.png" class="img-thumbnail">
@@ -30,3 +36,4 @@
         </form>
     </div>
 </div>
+{/if}
