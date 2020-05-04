@@ -7,7 +7,7 @@ const Update = {
     init() {
         this.formElement.onsubmit = e => {
             e.preventDefault();
-            this.login();
+            this.update();
         };
     },
 
@@ -18,11 +18,11 @@ const Update = {
 
     checked($changePwdCheckbox) {
         disablePwd = !$changePwdCheckbox.checked
-        passwordElement.disabled = disablePwd
-        password2Element.disabled = disablePwd
+        this.passwordElement.disabled = disablePwd
+        this.password2Element.disabled = disablePwd
         if (disablePwd) {
-            passwordElement.value = null
-            password2Element.value = null
+            this.passwordElement.value = null
+            this.password2Element.value = null
         }
     },
 

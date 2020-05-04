@@ -76,12 +76,12 @@ class Database {
 
     public function updateUserInfo($userInfo) {
         $this::executePreparedQuery('updateUserInfo', 
-        'UPDATE "data".users SET login=$2, "name"=$3, surname=$4, patronymic=$5, is_tutor=$6 WHERE id=$1;', $userInfo);
+        'UPDATE "data".users SET "login"=$2, "name"=$3, surname=$4, patronymic=$5, is_tutor=$6 WHERE id=$1;', $userInfo);
     }
 
     public function updateUserInfoWPassword($userInfoWPassword) {
-        $this::executePreparedQuery('updateUserInfo', 
-        'UPDATE "data".users SET login=$2, hash=$3 "name"=$4, surname=$5, patronymic=$6, is_tutor=$7 WHERE id=$1;', 
+        $this::executePreparedQuery('updateUserInfoWPassword', 
+        'UPDATE "data".users SET "login"=$2, hash=$3 "name"=$4, surname=$5, patronymic=$6, is_tutor=$7 WHERE id=$1;', 
         $userInfoWPassword);
     }
 }

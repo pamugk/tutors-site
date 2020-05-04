@@ -20,11 +20,11 @@ elseif(key_exists('ID',$_SESSION)) {
         if (key_exists('changePassword', $_POST))
             Database::getInstance()->updateUserInfoWPassword(
                 array($_SESSION['ID'], $_POST['login'], password_hash($_POST['password'], PASSWORD_BCRYPT),
-                $_POST['name'], $_POST['surname'], $_POST['patronymic'], key_exists('isTutor', $_POST)));
+                $_POST['name'], $_POST['surname'], $_POST['patronymic'], key_exists('isTutor', $_POST) ? 'true' : 'false'));
         else
             Database::getInstance()->updateUserInfo(
                 array($_SESSION['ID'], $_POST['login'], $_POST['name'], $_POST['surname'], 
-                $_POST['patronymic'], key_exists('isTutor', $_POST)));
+                $_POST['patronymic'], key_exists('isTutor', $_POST) ? 'true' : 'false'));
     }
 }
 else {
