@@ -36,11 +36,11 @@ class Config {
 
     public static function getDefaultConfig() {
         $cfg['timezone'] = 'Asia/Yekaterinburg';
-        $cfg['db_host'] = 'localhost';
+        $cfg['db_host'] = '35.222.88.71';
         $cfg['db_port'] = '5432';
         $cfg['db_base'] = 'tutors';
         $cfg['db_user'] = 'postgres';
-        $cfg['db_pass'] = '4815162342';
+        $cfg['db_pass'] = 'postgres';
 
         return $cfg;
     }

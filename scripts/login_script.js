@@ -15,18 +15,18 @@ const Login = {
     },
 
     async login() {
-        fetch(`http://localhost:8080/backend/login.php`, 
+        fetch(`${PREFIX}backend/login.php`,
             { 
                 method: 'post',
                 body: new FormData(this.formElement)
             })
             .then(response => {
-                if (response.status == 200)
-                    window.location.replace("http://localhost:8080/");
+                if (response.status === 200)
+                    window.location.replace(PREFIX);
                 else response.json().then(data => this.showError(data.error));
             })
             .catch(error => console.log('Request failed', error));
     },
-}
+};
 
 Login.init();
