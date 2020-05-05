@@ -26,8 +26,8 @@ class UI {
         return file_get_contents(PATH."/ui/tutor.html");
     }
 
-    private static function getTutorsPage() {
-        
+    private static function getTutorsListPage() {
+        return file_get_contents(PATH."/ui/tutorslistpage.html");
     }
 
     public static function compilePage($page, $parameters) {
@@ -47,9 +47,10 @@ class UI {
                     <title>$title</title>
                     <link rel=\"stylesheet\" href=\"styles/bootstrap.min.css\">
                     <link rel=\"stylesheet\" href=\"styles/normalize.css\"/>
-                    <link rel=\"stylesheet\" href=\"styles/style.css\"/>
+                    <link rel=\"stylesheet\" href=\"styles/style.css\"/>                
                 </head>
                 <body>
+                    <script>const PREFIX = 'http://localhost:8080/';</script>
                     <header>
                         $header
                     </header>
@@ -80,6 +81,8 @@ class UI {
                 return self::getPersonalPage();
             case "tutor":
                 return self::getTutorPage();
+            case "tutors":
+                return self::getTutorsListPage();
             default:
                 return self::getNotfoundPage();
         }

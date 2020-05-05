@@ -37,6 +37,10 @@ class Database {
         return pg_execute($db_link, $name, $params);
     }
 
+    private function executeQuery($query) {
+        return pg_query($this->db_link, $query);
+    }
+
     public function freeResult($result) {
         pg_free_result($result);
     }
@@ -72,6 +76,40 @@ class Database {
         $this::executePreparedQuery('createUser',
         'INSERT INTO "data".users(login, hash, "name", surname, patronymic, is_tutor) VALUES($1, $2, $3, $4, $5, $6);', 
         $userInfo);
+    }
+
+    public function getCountTutors() {
+        $result = $this::executeQuery('SELECT count(*) FROM data.users WHERE is_tutor=True;');
+        $countTutors = null;
+        if ($result) {
+            $countTutors = pg_fetch_array($result)[0];
+            Database::getInstance()->freeResult($result);
+        }
+        return $countTutors;
+    }
+
+    public function getListTutors($pageNum, $pageSize) {
+        $result = $this::executePreparedQuery("getListTutors", '
+                SELECT name, surname, patronymic, experience 
+                FROM data.users 
+                WHERE is_tutor=True
+                LIMIT $1 
+                OFFSET $2;',
+            array($pageSize, ($pageNum-1)*$pageSize)
+        );
+
+        $tutors = array();
+        if ($result) {
+            $tutor = pg_fetch_array($result);
+            while ($tutor) {
+                array_push($tutors, array('name' => $tutor[0], 'surname' => $tutor[1], 'patronymic' => $tutor[2], 'experience' => $tutor[3]));
+                $tutor = pg_fetch_array($result);
+            }
+
+            Database::getInstance()->freeResult($result);
+        }
+
+        return $tutors;
     }
 
     public function updateUserInfo($userInfo) {

@@ -12,8 +12,12 @@ else {
     Database::getInstance()->freeResult($result);
 }
 $user = null;
-if (key_exists('ID',$_SESSION))
+$bind = array('user' => null);
+
+if (key_exists('ID',$_SESSION)) {
     $user = Database::getInstance()->getUser($_SESSION['ID']);
+    $bind['user'] = $user;
+}
 $template = UI::constructPage("Title", UI::getHeader(), UI::getSidebar(), UI::getContent($page), UI::getFooter());
-print(UI::compilePage($template, array('user' => $user)));
+print(UI::compilePage($template, $bind));
 ?>
