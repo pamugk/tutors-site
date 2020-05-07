@@ -2,12 +2,16 @@
 require_once PATH."/libs/Smarty.class.php";
 
 class UI {
+    private static function getAboutPage() {
+        return file_get_contents(PATH."/ui/aboutpage.html");
+    }
+
     private static function getMainPage() {
         return file_get_contents(PATH."/ui/mainpage.html");
     }
 
     private static function getNotfoundPage() {
-        return file_get_contents(PATH."/ui/notfound.html");
+        return file_get_contents(PATH."/ui/notfoundpage.html");
     }
 
     private static function getLoginPage() {
@@ -23,7 +27,7 @@ class UI {
     }
 
     private static function getTutorPage() {
-        return file_get_contents(PATH."/ui/tutor.html");
+        return file_get_contents(PATH."/ui/tutorpage.html");
     }
 
     private static function getTutorsListPage() {
@@ -71,14 +75,16 @@ class UI {
 
     public static function getContent($page) {
         switch ($page) {
-            case "main":
-                return self::getMainPage();
+            case "about":
+                return self::getAboutPage();
             case "login":
                 return self::getLoginPage();
-            case "registration":
-                return self::getRegistrationPage();
+            case "main":
+                return self::getMainPage();
             case "personal":
                 return self::getPersonalPage();
+            case "registration":
+                return self::getRegistrationPage();
             case "tutor":
                 return self::getTutorPage();
             case "tutors":
@@ -98,6 +104,27 @@ class UI {
 
     public static function getSidebar() {
         return "";
+    }
+
+    public static function getTitle($page) {
+        switch ($page) {
+            case "about":
+                return 'О сайте';
+            case "login":
+                return 'Вход';
+            case "main":
+                return 'Главная страница';
+            case "personal":
+                return 'Личный кабинет';
+            case "registration":
+                return 'Регистрация';
+            case "tutor":
+                return 'Личная страница';
+            case "tutors":
+                return 'Список репетиторов';
+            default:
+                return 'Страница не найдена';
+        }
     }
 }
 ?>

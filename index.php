@@ -11,13 +11,26 @@ else {
     $page = !$row ? "404" : $row[0];
     Database::getInstance()->freeResult($result);
 }
-$user = null;
+
 $bind = array('user' => null);
 
-if (key_exists('ID',$_SESSION)) {
+$loggedIn = key_exists('ID',$_SESSION);
+
+if ($loggedIn) {
     $user = Database::getInstance()->getUser($_SESSION['ID']);
     $bind['user'] = $user;
 }
-$template = UI::constructPage("Title", UI::getHeader(), UI::getSidebar(), UI::getContent($page), UI::getFooter());
+
+switch ($page) {
+    case 'personal': {
+        if ($loggedIn && $user['isTutor']) {
+            $bind['subjectsOfTutor'] = Database::getInstance()->checkSubjectsTaughtByTutor($_SESSION['ID']);
+            $bind['tutorInfo'] = Database::getInstance()->getTutorInfo($_SESSION['ID']);
+        }
+        break;
+    }
+}
+
+$template = UI::constructPage(UI::getTitle($page), UI::getHeader(), UI::getSidebar(), UI::getContent($page), UI::getFooter());
 print(UI::compilePage($template, $bind));
 ?>

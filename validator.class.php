@@ -19,6 +19,10 @@ class Validator {
         'login' => 'Логин', 'password' => 'Пароль', 'password2' => 'Повтор пароля'
     );
 
+    private static $requiredTutorFields = array(
+        'experience' => 'Стаж'
+    );
+
     private static function validateFields($info, $fields) {
         foreach ($fields as $key => $value)
             if (!array_key_exists($key, $info) || $info[$key] === '')
@@ -54,6 +58,15 @@ class Validator {
         if (strcmp($info['password'], $info['password2']) === 0)
             return false;
         return 'Не совпадают пароль и его повтор';
+    }
+
+    public static function validateTutorInfo($info) {
+        $fieldValidation = self::validateFields($info, self::$requiredTutorFields);
+        if ($fieldValidation)
+            return $fieldValidation;
+        if ($info['experience'] < 0 || $info['experience'] > 120)
+            return 'Стаж измеряется в годах, поэтому это - неотрицательное число, имеющее разумное значение (т.е. не больше 120)';
+        return false;
     }
 }
 ?>

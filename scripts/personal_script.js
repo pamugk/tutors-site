@@ -1,4 +1,4 @@
-const Update = {
+const Personal = {
     errorElement: document.getElementById('error'),
     formElement: document.getElementById('personal-form'),
     passwordElement: document.getElementById('password-input'),
@@ -7,7 +7,7 @@ const Update = {
     init() {
         this.formElement.onsubmit = e => {
             e.preventDefault();
-            this.update();
+            this.personal();
         };
     },
 
@@ -26,19 +26,19 @@ const Update = {
         }
     },
 
-    async update() {
-        fetch(`http://localhost:8080/backend/update.php`, 
+    async personal() {
+        fetch(`http://localhost:8080/backend/personal.php`, 
             { 
                 method: 'post',
                 body: new FormData(this.formElement)
             })
             .then(response => {
                 if (response.status == 200)
-                    window.location.replace("http://localhost:8080/");
+                    window.location.replace("http://localhost:8080/personal");
                 else response.json().then(data => this.showError(data.error));
             })
             .catch(error => console.log('Request failed', error));
     },
 }
 
-Update.init();
+Personal.init();
