@@ -25,7 +25,7 @@ elseif(key_exists('ID',$_SESSION)) {
             Database::getInstance()->updateUserInfo(
                 array($_SESSION['ID'], $_POST['login'], $_POST['name'], $_POST['surname'], 
                 $_POST['patronymic'], key_exists('isTutor', $_POST) ? 'true' : 'false'));
-        if (key_exists('avatar', $_FILES)) {
+        if (key_exists('avatar', $_FILES) && $_FILES["avatar"]["tmp_name"] != '') {
             $image = file_get_contents($_FILES["avatar"]["tmp_name"]);
             $imageId = Database::getInstance()->saveImage($image);
             Database::getInstance()->setUserAvatar($_SESSION['ID'], $imageId);

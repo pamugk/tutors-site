@@ -1,6 +1,7 @@
 const Login = {
     errorElement: document.getElementById('error'),
     formElement: document.getElementById('login-form'),
+    spinnerElement: document.getElementById('spinner'),
 
     init() {
         this.formElement.onsubmit = e => {
@@ -15,17 +16,21 @@ const Login = {
     },
 
     async login() {
+        this.spinnerElement.classList.remove('d-none');
         fetch(`${PREFIX}backend/login.php`,
             { 
                 method: 'post',
                 body: new FormData(this.formElement)
             })
             .then(response => {
+                this.spinnerElement.classList.add('d-none');
                 if (response.status === 200)
                     window.location.replace(PREFIX);
                 else response.json().then(data => this.showError(data.error));
             })
-            .catch(error => console.log('Request failed', error));
+            .catch(error =>  { 
+                this.spinnerElement.classList.add('d-none'); console.log('Request failed', error) 
+            });
     },
 };
 

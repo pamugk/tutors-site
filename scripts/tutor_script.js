@@ -1,6 +1,7 @@
 const Tutor = {
     errorElement: document.getElementById('error2'),
     tutorFormElement: document.getElementById('tutor-form'),
+    spinnerElement: document.getElementById('spinner2'),
 
     init() {
         this.tutorFormElement.onsubmit = e => {
@@ -15,17 +16,21 @@ const Tutor = {
     },
 
     async tutor() {
-        fetch(`http://localhost:8080/backend/tutor.php`, 
+        this.spinnerElement.classList.remove('d-none');
+        fetch(`${PREFIX}backend/tutor.php`, 
             { 
                 method: 'post',
                 body: new FormData(this.tutorFormElement)
             })
             .then(response => {
+                this.spinnerElement.classList.add('d-none');
                 if (response.status == 200)
-                    window.location.replace("http://localhost:8080/personal");
+                    window.location.replace(`${PREFIX}personal`);
                 else response.json().then(data => this.showError(data.error));
             })
-            .catch(error => console.log('Request failed', error));
+            .catch(error =>  { 
+                this.spinnerElement.classList.add('d-none'); console.log('Request failed', error) 
+            });
     },
 }
 

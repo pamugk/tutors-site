@@ -4,6 +4,7 @@ const Personal = {
     formElement: document.getElementById('personal-form'),
     passwordElement: document.getElementById('password-input'),
     password2Element: document.getElementById('password2-input'),
+    spinnerElement: document.getElementById('spinner1'),
 
     init() {
         this.formElement.onsubmit = e => {
@@ -37,17 +38,21 @@ const Personal = {
     },
 
     async personal() {
-        fetch(`http://localhost:8080/backend/personal.php`, 
+        this.spinnerElement.classList.remove('d-none');
+        fetch(`${PREFIX}backend/personal.php`, 
             { 
                 method: 'post',
                 body: new FormData(this.formElement)
             })
             .then(response => {
+                this.spinnerElement.classList.add('d-none');
                 if (response.status == 200)
-                    window.location.replace("http://localhost:8080/personal");
+                    window.location.replace(`${PREFIX}personal`);
                 else response.json().then(data => this.showError(data.error));
             })
-            .catch(error => console.log('Request failed', error));
+            .catch(error =>  { 
+                this.spinnerElement.classList.add('d-none'); console.log('Request failed', error) 
+            });
     },
 }
 

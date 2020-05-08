@@ -18,6 +18,11 @@
         <div class="container col">
             <form id="personal-form" class="col" enctype="multipart/form-data" method="POST">
                 <h3 class="card-header">Персональные данные</h3>
+                <div class="d-flex justify-content-center align-content-center">
+                    <div class="spinner-border d-none" id="spinner1" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
                 <div id="error" class="alert alert-danger" style="display: none"></div>
                 <div class="form-group">
                     <label for="name-input">Имя:</label>
@@ -57,9 +62,14 @@
             </form>
             {if $user.isTutor}
             <form id="tutor-form" class="col my-2">
-                <div id="error2" class="alert alert-danger" style="display: none"></div>
                 <h3 class="card-header">Данные репетитора</h3>
-                    {if $subjectsOfTutor|@count == 0}
+                <div class="d-flex justify-content-center align-content-center">
+                    <div class="spinner-border d-none" id="spinner2" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div id="error2" class="alert alert-danger" style="display: none"></div>
+                {if $subjectsOfTutor|@count == 0}
                     <div class="alert alert-warning text-center mx-auto my-auto">
                         Увы, но пока предметов нет.<br/>
                         Если есть, чего предложить - обращайтесь к администрации сайта.
@@ -73,7 +83,7 @@
                             {/foreach} 
                         </select>
                     </div>
-                    {/if}
+                {/if}
                 <div class="form-group">
                     <label for="about-input">О себе:</label>
                     <textarea name="about" class="form-control" id="about-input" placeholder="О себе">{$tutorInfo.about}</textarea>

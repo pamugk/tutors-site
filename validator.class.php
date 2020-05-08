@@ -48,7 +48,7 @@ class Validator {
             if (strcmp($info['password'], $info['password2']) != 0)
                 return 'Не совпадают пароль и его повтор';
         }
-        if (key_exists('avatar', $files)) {
+        if (key_exists('avatar', $files) && $files["avatar"]["tmp_name"] != '') {
             if(!getimagesize($files["avatar"]["tmp_name"]))
                 return "Загружаемый файл - не изображение";
             elseif ($files["avatar"]["size"] > 5242880)
