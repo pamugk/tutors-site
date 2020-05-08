@@ -22,9 +22,9 @@
         </li>
         {else}
         <li class="nav-item">
-            <a class="nav-link" href="/personal"><i class="fas fa-user-circle"></i> {$user.login}</a>
+            <a class="nav-link row" href="/personal"><img src="{$avatar}" class="md-avatar rounded-circle">{$user.login}</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item ml-2 my-auto">
             <a class="nav-link" href="/logout.php"><i class="fas fa-sign-out-alt"></i> Выход</a>
         </li>
         {/if}

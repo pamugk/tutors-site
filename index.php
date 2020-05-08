@@ -19,6 +19,7 @@ $loggedIn = key_exists('ID',$_SESSION);
 if ($loggedIn) {
     $user = Database::getInstance()->getUser($_SESSION['ID']);
     $bind['user'] = $user;
+    $bind['avatar'] = $user['avatarId'] == null ? "/images/avatar.png" : "/backend/images.php?id=".$user['avatarId'];
 }
 
 switch ($page) {

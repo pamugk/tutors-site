@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     $response = array('error' => "Запрос не поддерживается");
 }
 elseif(key_exists('ID',$_SESSION)) {
-    if ($validationResult = Validator::validatePersonalInfo($_POST)) {
+    if ($validationResult = Validator::validatePersonalInfo($_POST, $_FILES, $_SESSION['ID'])) {
         $response_code = 400;
         $response = array('error' => $validationResult);
     }
@@ -25,6 +25,11 @@ elseif(key_exists('ID',$_SESSION)) {
             Database::getInstance()->updateUserInfo(
                 array($_SESSION['ID'], $_POST['login'], $_POST['name'], $_POST['surname'], 
                 $_POST['patronymic'], key_exists('isTutor', $_POST) ? 'true' : 'false'));
+        if (key_exists('avatar', $_FILES)) {
+            $image = file_get_contents($_FILES["avatar"]["tmp_name"]);
+            $imageId = Database::getInstance()->saveImage($image);
+            Database::getInstance()->setUserAvatar($_SESSION['ID'], $imageId);
+        }
     }
 }
 else {

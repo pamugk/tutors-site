@@ -1,6 +1,7 @@
 <?php
 include_once "../database.class.php";
 include_once "../validator.class.php";
+session_start();
 $response = "";
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     $response_code = 405;
@@ -26,7 +27,6 @@ else {
     }
     elseif (password_verify($_POST['password'], $row[1])) {
         $response_code = 200;
-        session_start();
         $_SESSION['ID'] = $row[0];
     }
     else {

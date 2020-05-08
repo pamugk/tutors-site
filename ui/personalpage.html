@@ -4,18 +4,19 @@
     Если у вас уже есть аккаунт - авторизуйтесь.
 </div>
 {else}
-<div class="container col">
+<div class="card-body container col">
     <div class="alert alert-warning mx-auto my-2">
         Все изменения будут действительны только после нажатия кнопки "Сохранить".<br/>
         Да, и статус репетитора тоже.<br/>
         Да, специфичные для репетиторов опции доступны только тем, у кого зафиксирован статус "Репетитор", не надо писать в техподдержку.
     </div>
     <div class="container row my-2">
-        <div class="col-2">
-            <img src="/images/avatar.png" class="img-thumbnail">
+        <div class="col-3">
+            <img id="avatarImg" src="{$avatar}" class="img-thumbnail">
+            <input accept="image/jpg, image/png, image/jpeg" class="form-control" form="personal-form" name="avatar" type="file" onchange="Personal.updImage(this)">
         </div>
         <div class="container col">
-            <form id="personal-form" class="col">
+            <form id="personal-form" class="col" enctype="multipart/form-data" method="POST">
                 <h3 class="card-header">Персональные данные</h3>
                 <div id="error" class="alert alert-danger" style="display: none"></div>
                 <div class="form-group">
@@ -40,7 +41,7 @@
                 </div>
                 <div class="form-row">
                     <div class="form-check my-auto">
-                        <input type="checkbox" name="changePassword" class="form-check-input" id="change-password-input" onchange=Update.checked(this)>
+                        <input type="checkbox" name="changePassword" class="form-check-input" id="change-password-input" onchange=Personal.checked(this)>
                         <label class="form-check-label" for="change-password-input">Поменять пароль</label>
                     </div>
                     <div class="form-group col">
@@ -52,10 +53,10 @@
                         <input type="password" name="password2" class="form-control" id="password2-input" placeholder="******" disabled>
                     </div>
                 </div>
-                <input type="submit" class="btn btn-primary" value="Сохранить"/>
+                <input name="submit" type="submit" class="btn btn-primary" value="Сохранить"/>
             </form>
             {if $user.isTutor}
-            <form id="tutor-form" class="col">
+            <form id="tutor-form" class="col my-2">
                 <div id="error2" class="alert alert-danger" style="display: none"></div>
                 <h3 class="card-header">Данные репетитора</h3>
                     {if $subjectsOfTutor|@count == 0}

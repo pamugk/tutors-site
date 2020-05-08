@@ -34,16 +34,30 @@ class Validator {
         return self::validateFields($info, self::$requiredLoginFields);
     }
 
-    public static function validatePersonalInfo($info) {
+    public static function validatePersonalInfo($info, $files, $id) {
         $fieldValidation = self::validateFields($info, self::$requiredPersonalFields);
         if ($fieldValidation)
             return $fieldValidation;
+        Database::reinitializeConnection();
+        if (Database::getInstance()->checkLoginNotAccessible($id, $info['login']))
+            return "Логин уже занят";
         if (array_key_exists('changePassword', $info)) {
             $passValidation = self::validateFields($info, self::$passwordPersonalFields);
             if ($passValidation)
                 return $passValidation;
             if (strcmp($info['password'], $info['password2']) != 0)
                 return 'Не совпадают пароль и его повтор';
+        }
+        if (key_exists('avatar', $files)) {
+            if(!getimagesize($files["avatar"]["tmp_name"]))
+                return "Загружаемый файл - не изображение";
+            elseif ($files["avatar"]["size"] > 5242880)
+                return "Загружаемое изображение должно иметь вес не более 5 Мб";
+            else {
+                $imageFileType = strtolower(pathinfo(basename($_FILES["avatar"]["name"]),PATHINFO_EXTENSION));
+                if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg")
+                  return "Принимаются только JPG, PNG и JPEG изображения";
+            }
         }
         return false;
     }
