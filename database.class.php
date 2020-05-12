@@ -108,8 +108,16 @@ class Database {
         pg_free_result($result);
     }
 
-    public function getCountTutors() {
-        $result = $this::executeQuery('SELECT count(*) FROM data.users WHERE is_tutor=True;');
+    public function getCountTutors($search, $teachingSubject) {
+        $search = "%{$search}%";
+        $and = ($teachingSubject == null or $teachingSubject == 0) ? '' : 'AND u.id in (SELECT user_id FROM data.ref_users_teaching_subjects WHERE teaching_subject_id = $2)';
+
+        $result = $this::executePreparedQuery('getCredentials', "SELECT count(*) 
+                FROM data.users u
+                WHERE is_tutor=True
+                    AND CONCAT(u.name, ' ', u.surname, ' ', u.patronymic) LIKE $1
+                    $and;",
+            $and == '' ?  array($search) : array($search, $teachingSubject));
         $countTutors = null;
         if ($result) {
             $countTutors = pg_fetch_array($result)[0];

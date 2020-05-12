@@ -25,7 +25,7 @@
 
         <input type="submit" class="btn btn-primary" value="Найти"
                id="search-btn"
-               onclick="TutorsList.getList()"
+               onclick="TutorsList.search()"
                style="height: 38px; margin-left: 15px; background-color: #002752"/>
     </nav>
 
@@ -34,14 +34,15 @@
     <div class="card-body" id="tutors-list"></div>
 
     <div class="card-footer align-content-center my-footer">
-        <ul class="paging" id="pagination">
-            <li class="paging-page" id="prev-li" onclick="TutorsList.prevPage()">
-                <a class="disabled-li" id="link-prev">«</a>
-            </li>
-            <li class="paging-page" id="next-li" onclick="TutorsList.nextPage()">
-                <a class="paging-page-link" id="link-next" href="#">»</a>
-            </li>
-        </ul>
+        <div style="display: flex; flex-direction: row">
+            <div class="paging-page" id="prev-li" onclick="TutorsList.prevPage()">
+                <a class="disabled-li" id="link-prev" style="background: #D9D9D9">«</a>
+            </div>
+            <ul class="paging" id="pagination"></ul>
+            <div class="paging-page" id="next-li" onclick="TutorsList.nextPage()">
+                <a class="paging-page-link" id="link-next" href="#" style="background: #D9D9D9">»</a>
+            </div>
+        </div>
         <select class="form-control custom-select my-select" onchange="TutorsList.changeCountTutors()" id="count-tutors-select" style="align-self: self-end; width: 70px;">
             <option value="5">5</option>
             <option value="10">10</option>

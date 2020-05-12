@@ -114,10 +114,6 @@ class Validator {
     }
 
     public static function validatePageData(&$info) {
-        if (!isset($info['q']) or $info['q'] == null) {
-            $info['q'] = '';
-        }
-
         if (!isset($info['n']) or $info['n'] == null) {
             $info['n'] = 1;
         } elseif (!is_numeric($info['n'])) {
@@ -134,6 +130,10 @@ class Validator {
             return 'Количество элементов на странице - положительное число!';
         }
 
+        if (!isset($info['q']) or $info['q'] == null) {
+            $info['q'] = '';
+        }
+
         if (!isset($info['ts']) or $info['ts'] == null) {
             $info['ts'] = null;
         } elseif (!is_numeric($info['ts']) or $info['ts'] < 0) {
@@ -147,5 +147,26 @@ class Validator {
         }
         return false;
     }
+
+    public static function validateCountData(&$info) {
+        if (!isset($info['q']) or $info['q'] == null) {
+            $info['q'] = '';
+        }
+
+        if (!isset($info['ts']) or $info['ts'] == null) {
+            $info['ts'] = null;
+        } elseif (!is_numeric($info['ts']) or $info['ts'] < 0) {
+            return 'Неверно указан предмет!';
+        }
+
+        if (!isset($info['o']) or $info['o'] == null) {
+            $info['o'] = 0;
+        } elseif (!is_numeric($info['o']) or $info['o'] < 0 or $info['o'] > 4) {
+            return 'Неверно указан порядок!';
+        }
+        return false;
+    }
+
+
 }
 ?>

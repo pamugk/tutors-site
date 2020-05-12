@@ -10,7 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] != 'GET') {
     $response_code = 405;
     $response = array('error' => "Запрос не поддерживается");
 } else {
-    Database::reinitializeConnection();
     $result = null;
     if ($valResult = Validator::validatePageData($_GET)) {
         $response_code = 400;
@@ -22,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] != 'GET') {
         $pageSize = $_GET['s'];
         $order = $_GET['o'];
 
-
+        Database::reinitializeConnection();
         $result = Database::getInstance()->getListTutors($pageNum, $pageSize, $search, $teachingSubject, $order);
 
         if ($result) {

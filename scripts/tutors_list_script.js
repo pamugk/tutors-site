@@ -18,28 +18,25 @@ const TutorsList = {
     countPages: 1,
 
     async init() {
-        await this.getCount();
+        this.getCount();
         await this.getList();
     },
 
     async getCount() {
-        fetch(`${PREFIX}backend/tutors/count.php`)
+        await fetch(`${PREFIX}backend/tutors/count.php?q=${this.inpSearch.value}&ts=${this.subjectSelect.options[this.subjectSelect.selectedIndex].value}`)
             .then(response => {
-                console.log(response);
-
                 if (response.status === 200) {
                     response.text()
                         .then(res => {
                             const count = parseInt(res);
                             this.countPages = Math.ceil(count/this.pageSize);
-                            for (let i = 1; i < this.pagination.children.length - 1; i++) {
-                                this.pagination.removeChild(this.pagination.children[i]);
-                            }
+                            this.changePage(1);
+                            this.pagination.innerHTML = '';
                             for (let i = 0; i < this.countPages; i++) {
                                 let li = document.createElement('li');
                                 li.classList.add('paging-page');
                                 li.innerHTML = `<a class="paging-page-link" id="paging-item${i+1}" href="#" onclick="TutorsList.changePage(${i+1})">${i+1}</a>`;
-                                this.pagination.insertBefore(li, this.nextLi);
+                                this.pagination.appendChild(li);
                                 if (i === 0) {
                                     document.getElementById(`paging-item${i+1}`).classList.add('active');
                                 }
@@ -54,11 +51,12 @@ const TutorsList = {
     async getList() {
         this.list.innerHTML = '';
         this.spinner.classList.add('loader');
-        fetch(`${PREFIX}backend/tutors/list.php?&n=${this.pageNum}&s=${this.pageSize}&q=${this.inpSearch.value}&o=${this.orderSelect.options[this.orderSelect.selectedIndex].value}&ts=${this.subjectSelect.options[this.subjectSelect.selectedIndex].value}`)
+        await fetch(`${PREFIX}backend/tutors/list.php?n=${this.pageNum}&s=${this.pageSize}&q=${this.inpSearch.value}&o=${this.orderSelect.options[this.orderSelect.selectedIndex].value}&ts=${this.subjectSelect.options[this.subjectSelect.selectedIndex].value}`)
             .then(response => {
                 if (response.status === 200) {
                     response.json()
                         .then(tutors => {
+                            this.list.innerHTML = '';
                             console.log(tutors);
                             let i = 0;
                             for (let tutor of tutors) {
@@ -139,9 +137,13 @@ const TutorsList = {
     },
 
     async changePage(pageNum) {
+        console.log(this.countPages);
+        if (this.pageNum === pageNum) {
+            return;
+        }
         this.pageNum = pageNum;
         for (let i = 0; i < this.countPages; i++) {
-            document.getElementById(`paging-item${i+1}`).classList.remove('active');
+            document.getElementById(`paging-item${i + 1}`).classList.remove('active');
         }
         document.getElementById(`paging-item${pageNum}`).classList.add('active');
         if (pageNum > 1 && pageNum < this.countPages) {
@@ -158,7 +160,7 @@ const TutorsList = {
             this.changeStyles(this.linkPrev, false);
         }
 
-        this.getList();
+        await this.getList();
     },
 
     changeStyles(item, isDisable) {
@@ -171,24 +173,28 @@ const TutorsList = {
         }
     },
 
-    prevPage() {
+    async prevPage() {
         if (this.pageNum - 1 < 1) {
             return;
         }
-        this.changePage(this.pageNum - 1);
+        await this.changePage(this.pageNum - 1);
     },
 
-    nextPage() {
+    async nextPage() {
         if (this.pageNum + 1 > this.countPages) {
             return;
         }
-        this.changePage(this.pageNum + 1);
+        await this.changePage(this.pageNum + 1);
     },
 
-    changeCountTutors() {
-        this.pageSize = this.countTutorsSelect.options[this.countTutorsSelect.selectedIndex].value;
+    async changeCountTutors() {
         this.getCount();
-        this.getList();
+        await this.getList();
+    },
+
+    async search() {
+        this.getCount();
+        await this.getList();
     }
 };
 
