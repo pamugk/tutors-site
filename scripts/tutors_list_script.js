@@ -188,6 +188,7 @@ const TutorsList = {
     },
 
     async changeCountTutors() {
+        this.pageSize = this.countTutorsSelect.options[this.countTutorsSelect.selectedIndex].value;
         this.getCount();
         await this.getList();
     },
