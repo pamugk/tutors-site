@@ -3,6 +3,7 @@
         <div class="md-form active-cyan-2 mb-3" style="flex: 1">
             <input class="form-control" type="text" id="search-inp" placeholder="ФИО" aria-label="Search">
         </div>
+
         <div>
             <select class="form-control custom-select my-select" id="subject-select">
                 <option value="0">Любой предмет</option>
@@ -11,6 +12,7 @@
                 {/foreach}
             </select>
         </div>
+
         <div>
             <select class="form-control custom-select my-select" id="order-select">
                 <option value="0">Порядок</option>
@@ -20,16 +22,33 @@
                 <option value="4">Сначала новички</option>
             </select>
         </div>
+
         <input type="submit" class="btn btn-primary" value="Найти"
                id="search-btn"
                onclick="TutorsList.getList()"
                style="height: 38px; margin-left: 15px; background-color: #002752"/>
     </nav>
-    <div id="spinner"></div>
-    <div class="card-body" id="tutors-list">
-    </div>
-    <div class="card-footer align-content-center">
 
+    <div id="spinner"></div>
+
+    <div class="card-body" id="tutors-list"></div>
+
+    <div class="card-footer align-content-center my-footer">
+        <ul class="paging" id="pagination">
+            <li class="paging-page" id="prev-li" onclick="TutorsList.prevPage()">
+                <a class="disabled-li" id="link-prev">«</a>
+            </li>
+            <li class="paging-page" id="next-li" onclick="TutorsList.nextPage()">
+                <a class="paging-page-link" id="link-next" href="#">»</a>
+            </li>
+        </ul>
+        <select class="form-control custom-select my-select" onchange="TutorsList.changeCountTutors()" id="count-tutors-select" style="align-self: self-end; width: 70px;">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+        </select>
     </div>
 </div>
+
 <script defer src="/scripts/tutors_list_script.js"></script>

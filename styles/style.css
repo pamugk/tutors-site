@@ -109,6 +109,16 @@ main {
     margin-bottom: 5px;
 }
 
+.card-tutor:hover {
+    background: #B6B6B6;
+    cursor: pointer;
+}
+
+.card-tutor:active {
+    background: #929292;
+    cursor: pointer;
+}
+
 .data-tutor {
     display: flex;
     flex-direction: column;
@@ -132,7 +142,7 @@ main {
 
 .tutor-price {
     border-left: 1px solid #BEBDC0;
-    width: 350px;
+    width: 500px;
     align-self: self-end;
 }
 
@@ -178,4 +188,62 @@ main {
         border-top:5px dashed #BA6D6F;
         border-bottom:5px dashed #366496;
     }
+}
+
+.paging {
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+}
+
+.paging-page {
+    list-style-type: none;
+    width: 32px;
+    height: 32px;
+    border: 1px solid #4e555b;
+    position: relative;
+}
+
+.paging-page-link {
+    text-decoration: none;
+    position: absolute;
+    left: 0; right: 0;
+    top: 0; bottom: 0;
+    text-align: center;
+    padding-top: 4px;
+    background: #EFEAE1;
+    color: black;
+}
+
+.active {
+    background: #B6B6B6;
+}
+
+.paging-page-link:hover {
+    text-decoration: none;
+    background: #f5f5f5;
+}
+
+.paging-page-link:active {
+    background: #929292;
+}
+
+.disabled-li {
+    cursor: unset;
+    text-decoration: none;
+    position: absolute;
+    left: 0; right: 0;
+    top: 0; bottom: 0;
+    text-align: center;
+    padding-top: 4px;
+    background: #f5f5f5;
+    color: black;
+}
+
+.my-footer {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
 }

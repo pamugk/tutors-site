@@ -1,15 +1,21 @@
 const TutorsList = {
 
     list: document.getElementById('tutors-list'),
-    paging: document.getElementById('paging'),
+    pagination: document.getElementById('pagination'),
     spinner: document.getElementById('spinner'),
     btnSearch: document.getElementById('search-btn'),
     inpSearch: document.getElementById('search-inp'),
     orderSelect: document.getElementById('order-select'),
     subjectSelect: document.getElementById('subject-select'),
+    countTutorsSelect: document.getElementById('count-tutors-select'),
+    nextLi: document.getElementById('next-li'),
+    prevLi: document.getElementById('prev-li'),
+    linkPrev: document.getElementById('link-prev'),
+    linkNext: document.getElementById('link-next'),
 
     pageNum: 1,
-    pageSize: 2,
+    pageSize: 5,
+    countPages: 1,
 
     async init() {
         await this.getCount();
@@ -25,11 +31,18 @@ const TutorsList = {
                     response.text()
                         .then(res => {
                             const count = parseInt(res);
-                            this.paging.innerHTML = '';
-                            for (let i = 0; i < Math.ceil(count/this.pageSize); i++) {
+                            this.countPages = Math.ceil(count/this.pageSize);
+                            for (let i = 1; i < this.pagination.children.length - 1; i++) {
+                                this.pagination.removeChild(this.pagination.children[i]);
+                            }
+                            for (let i = 0; i < this.countPages; i++) {
                                 let li = document.createElement('li');
-                                li.innerHTML = `<a href="#" onclick="TutorsList.changePage(${i+1}, ${this.pageSize})">${i+1}</a>`;
-                                this.paging.appendChild(li);
+                                li.classList.add('paging-page');
+                                li.innerHTML = `<a class="paging-page-link" id="paging-item${i+1}" href="#" onclick="TutorsList.changePage(${i+1})">${i+1}</a>`;
+                                this.pagination.insertBefore(li, this.nextLi);
+                                if (i === 0) {
+                                    document.getElementById(`paging-item${i+1}`).classList.add('active');
+                                }
                             }
                         });
                 } else {
@@ -41,7 +54,7 @@ const TutorsList = {
     async getList() {
         this.list.innerHTML = '';
         this.spinner.classList.add('loader');
-        fetch(`${PREFIX}backend/tutors/list.php?&n=1&s=10&q=${this.inpSearch.value}&o=${this.orderSelect.options[this.orderSelect.selectedIndex].value}&ts=${this.subjectSelect.options[this.subjectSelect.selectedIndex].value}`)
+        fetch(`${PREFIX}backend/tutors/list.php?&n=${this.pageNum}&s=${this.pageSize}&q=${this.inpSearch.value}&o=${this.orderSelect.options[this.orderSelect.selectedIndex].value}&ts=${this.subjectSelect.options[this.subjectSelect.selectedIndex].value}`)
             .then(response => {
                 if (response.status === 200) {
                     response.json()
@@ -90,7 +103,7 @@ const TutorsList = {
                                                 Оплата за 1 час
                                             </div>
                                             <div class="card-body" style="color: #1c7430; font-size: 30px;">
-                                                ${tutor.price}
+                                                ${tutor.price} руб.
                                             </div>
                                         </div>
                                     </div>`;
@@ -101,12 +114,6 @@ const TutorsList = {
                     response.json().then(data => this.showError(data.error));
                 }
             }).catch(error => console.log('Request failed', error));
-    },
-
-    async changePage(pageNum, pageSize) {
-        this.pageNum = pageNum;
-        this.pageSize = pageSize;
-        await this.getList();
     },
 
     experienceToStr(experience) {
@@ -129,6 +136,59 @@ const TutorsList = {
 
     stopSpinner(spinnerNum) {
         document.getElementById('spinner' + spinnerNum).classList.remove('loader-img');
+    },
+
+    async changePage(pageNum) {
+        this.pageNum = pageNum;
+        for (let i = 0; i < this.countPages; i++) {
+            document.getElementById(`paging-item${i+1}`).classList.remove('active');
+        }
+        document.getElementById(`paging-item${pageNum}`).classList.add('active');
+        if (pageNum > 1 && pageNum < this.countPages) {
+            this.changeStyles(this.linkPrev, false);
+            this.changeStyles(this.linkNext, false);
+        } else if (this.countPages === 1) {
+            this.changeStyles(this.linkPrev, true);
+            this.changeStyles(this.linkNext, true);
+        } else if (pageNum === 1) {
+            this.changeStyles(this.linkPrev, true);
+            this.changeStyles(this.linkNext, false);
+        } else if (pageNum === this.countPages) {
+            this.changeStyles(this.linkNext, true);
+            this.changeStyles(this.linkPrev, false);
+        }
+
+        this.getList();
+    },
+
+    changeStyles(item, isDisable) {
+        if (isDisable) {
+            item.removeAttribute('href');
+            item.classList.replace('paging-page-link', 'disabled-li');
+        } else {
+            item.setAttribute('href', '#');
+            item.classList.replace('disabled-li', 'paging-page-link');
+        }
+    },
+
+    prevPage() {
+        if (this.pageNum - 1 < 1) {
+            return;
+        }
+        this.changePage(this.pageNum - 1);
+    },
+
+    nextPage() {
+        if (this.pageNum + 1 > this.countPages) {
+            return;
+        }
+        this.changePage(this.pageNum + 1);
+    },
+
+    changeCountTutors() {
+        this.pageSize = this.countTutorsSelect.options[this.countTutorsSelect.selectedIndex].value;
+        this.getCount();
+        this.getList();
     }
 };
 
