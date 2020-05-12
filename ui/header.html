@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Биржа репетиторов</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="opacity: 70%;">
+    <a class="navbar-brand" href="#" style="font-size: 30px;">TUTORS.RU</a>
 
     <ul class="navbar-nav mr-auto">
         <li class="nav-item">
@@ -22,7 +22,7 @@
         </li>
         {else}
         <li class="nav-item">
-            <a class="nav-link row" href="/personal"><img src="{$avatar}" class="md-avatar rounded-circle">{$user.login}</a>
+            <a class="nav-link row" href="/personal"><img src="{$avatar}" class="md-avatar rounded-circle">  {$user.login}</a>
         </li>
         <li class="nav-item ml-2 my-auto">
             <a class="nav-link" href="/logout.php"><i class="fas fa-sign-out-alt"></i> Выход</a>

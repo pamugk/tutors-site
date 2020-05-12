@@ -1,6 +1,7 @@
 <?php
 include "database.class.php";
 include "ui.class.php";
+
 session_start();
 Database::reinitializeConnection();
 $result = Database::getInstance()->getPathPage($_SERVER["REQUEST_URI"]);
@@ -12,7 +13,10 @@ else {
     Database::getInstance()->freeResult($result);
 }
 
-$bind = array('user' => null);
+//$countTutors = Database::getInstance()->getCountTutors();
+//$tutors = Database::getInstance()->getListTutors(1, 10, null, null);
+
+$bind = array('user' => null, 'teachingSubjects' => Database::getInstance()->getAllTeachingSubjects());
 
 $loggedIn = key_exists('ID',$_SESSION);
 
@@ -29,6 +33,9 @@ switch ($page) {
             $bind['tutorInfo'] = Database::getInstance()->getTutorInfo($_SESSION['ID']);
         }
         break;
+    }
+    case 'tutors' : {
+
     }
 }
 

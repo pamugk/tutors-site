@@ -91,8 +91,8 @@ class Database {
     }
 
     public function checkLoginNotAccessible($userId, $newLogin) {
-        $result = $this->executePreparedQuery("loginExists", 
-        'SELECT EXISTS (SELECT * FROM "data".users WHERE id != $1 AND login=$2);', 
+        $result = $this->executePreparedQuery("loginExists",
+        'SELECT EXISTS (SELECT * FROM "data".users WHERE id != $1 AND login=$2);',
         array($userId, $newLogin));
         $exists = pg_fetch_array($result)[0] == 't';
         $this->freeResult($result);
@@ -122,24 +122,56 @@ class Database {
         return $this->executePreparedQuery("getCredentials", 'SELECT id, hash FROM "data".users WHERE login=$1', array($login));
     }
 
-    public function getListTutors($pageNum, $pageSize) {
-        $result = $this::executePreparedQuery("getListTutors", '
-                SELECT name, surname, patronymic, experience 
-                FROM data.users 
+    public function getListTutors($pageNum, $pageSize, $search, $teachingSubject, $order) {
+        $search = "%{$search}%";
+        $and = ($teachingSubject == null or $teachingSubject == 0) ? '' : 'AND u.id in (SELECT user_id FROM data.ref_users_teaching_subjects WHERE teaching_subject_id = $4)';
+        $orderBy = 'ORDER BY u.id';
+        switch ($order) {
+            case 0: {           // По умолчанию
+                $orderBy = 'ORDER BY u.id';
+                break;
+            }
+            case 1: {           // Сначала дешевле
+                $orderBy = 'ORDER BY price';
+                break;
+            }
+            case 2: {           // Сначала дороже
+                $orderBy = 'ORDER BY price DESC';
+                break;
+            }
+            case 3: {           // Сначала опытные
+                $orderBy = 'ORDER BY experience';
+                break;
+            }
+            case 4: {           // Сначала новички
+                $orderBy = 'ORDER BY price DESC';
+                break;
+            }
+        }
+        $result = $this::executePreparedQuery("getListTutors", "
+                SELECT u.name, surname, patronymic, experience, price, about, avatar_id, array_to_json(array_agg(ts.id)), array_to_json(array_agg(ts.name))
+                FROM data.users u
+                    JOIN data.tutors t ON u.id = t.id
+                    LEFT JOIN data.ref_users_teaching_subjects ruts ON u.id = ruts.user_id
+                    LEFT JOIN data.teaching_subjects ts ON ruts.teaching_subject_id = ts.id
                 WHERE is_tutor=True
-                LIMIT $1 
-                OFFSET $2;',
-            array($pageSize, ($pageNum-1)*$pageSize)
+                    AND CONCAT(u.name, ' ', surname, ' ', patronymic) LIKE $1
+                    $and
+                GROUP BY u.id, surname, patronymic, experience, price, about, avatar_id
+                $orderBy
+                LIMIT $2
+                OFFSET $3;",
+            $and == '' ?  array($search, $pageSize, ($pageNum-1)*$pageSize) : array($search, $pageSize, ($pageNum-1)*$pageSize, $teachingSubject)
         );
 
         $tutors = array();
         if ($result) {
             $tutor = pg_fetch_array($result);
             while ($tutor) {
-                array_push($tutors, array('name' => $tutor[0], 'surname' => $tutor[1], 'patronymic' => $tutor[2], 'experience' => $tutor[3]));
+                array_push($tutors, array('name' => $tutor[0], 'surname' => $tutor[1], 'patronymic' => $tutor[2],
+                    'experience' => $tutor[3], 'price' => $tutor[4], 'about' => $tutor[5], 'image' => $tutor[6] == null ? "/images/avatar.png" : "/backend/images.php?id=".$tutor[6], 'ts' => json_decode($tutor[8])));
                 $tutor = pg_fetch_array($result);
             }
-
             $this->freeResult($result);
         }
 
@@ -155,7 +187,7 @@ class Database {
     }
 
     public function getSubjectsOfTutor($tutorId) {
-        return $this->collectSubjects($this::executePreparedQuery('getSubjectsOfTutor', 
+        return $this->collectSubjects($this::executePreparedQuery('getSubjectsOfTutor',
         'WITH tutorSubjects AS (SELECT teaching_subject_id FROM "data".ref_users_teaching_subjects WHERE user_id=$1) 
         SELECT id, "name" FROM teaching_subjects, tutorSubjects WHERE id = tutorSubjects.teaching_subject_id;',
         array($tutorId)));
@@ -173,7 +205,7 @@ class Database {
     }
 
     public function getUser($userId) {
-        $result = $this->executePreparedQuery("getUserBySession", 
+        $result = $this->executePreparedQuery("getUserBySession",
         'SELECT login, name, surname, patronymic, is_tutor, avatar_id FROM "data".users WHERE id = $1;', array($userId));
         $user = null;
         if ($result) {
@@ -210,13 +242,13 @@ class Database {
 
     public function registerUser($userInfo) {
         $this->executePreparedQuery('createUser',
-        'INSERT INTO "data".users(login, hash, "name", surname, patronymic, is_tutor) VALUES($1, $2, $3, $4, $5, $6);', 
+        'INSERT INTO "data".users(login, hash, "name", surname, patronymic, is_tutor) VALUES($1, $2, $3, $4, $5, $6);',
         $userInfo);
     }
 
     public function saveImage($image) {
         $safeImage = pg_escape_bytea($this->db_link, $image);
-        $result = $this->executePreparedQuery('saveImage', 
+        $result = $this->executePreparedQuery('saveImage',
         'INSERT INTO "data".images(content) VALUES($1) RETURNING id;', array($safeImage));
         $id = pg_fetch_result($result, 0, 0);
         $this->freeResult($result);
@@ -229,27 +261,40 @@ class Database {
     }
 
     public function updateTutorInfo($tutorInfo) {
-        $this->executePreparedQuery('updateTutorInfo', 
+        $this->executePreparedQuery('updateTutorInfo',
         'UPDATE "data".tutors SET about=$2, experience=$3  WHERE id=$1;', $tutorInfo);
     }
 
     public function updateTutorSubjects($tutorId, $subjectsIds) {
         $subjects = self::toPgArray($subjectsIds);
-        $this->executePreparedQuery('updateTutorSubjects', 
+        $this->executePreparedQuery('updateTutorSubjects',
         "INSERT INTO data.ref_users_teaching_subjects (user_id, teaching_subject_id) 
         SELECT $1 usr_id, subj_id FROM unnest($subjects) subj_id;",
         array($tutorId));
     }
 
     public function updateUserInfo($userInfo) {
-        $this->executePreparedQuery('updateUserInfo', 
+        $this->executePreparedQuery('updateUserInfo',
         'UPDATE "data".users SET "login"=$2, "name"=$3, surname=$4, patronymic=$5, is_tutor=$6 WHERE id=$1;', $userInfo);
     }
 
     public function updateUserInfoWPassword($userInfoWPassword) {
-        $this->executePreparedQuery('updateUserInfoWPassword', 
-        'UPDATE "data".users SET "login"=$2, hash=$3 "name"=$4, surname=$5, patronymic=$6, is_tutor=$7 WHERE id=$1;', 
+        $this->executePreparedQuery('updateUserInfoWPassword',
+        'UPDATE "data".users SET "login"=$2, hash=$3 "name"=$4, surname=$5, patronymic=$6, is_tutor=$7 WHERE id=$1;',
         $userInfoWPassword);
+    }
+
+
+    public function getAllTeachingSubjects() {
+        $result = $this::executeQuery('SELECT id, name FROM data.teaching_subjects');
+        $teachingSubjects = null;
+
+        if ($result) {
+            $teachingSubjects = pg_fetch_all($result);
+            $this->freeResult($result);
+        }
+
+        return $teachingSubjects;
     }
 }
 ?>

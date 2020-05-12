@@ -1,9 +1,35 @@
-<div style="display: flex; flex-direction: column;">
-<ui id="tutors-list">
-</ui>
+<div class="tutors-list">
+    <nav class="filters card-header">
+        <div class="md-form active-cyan-2 mb-3" style="flex: 1">
+            <input class="form-control" type="text" id="search-inp" placeholder="ФИО" aria-label="Search">
+        </div>
+        <div>
+            <select class="form-control custom-select my-select" id="subject-select">
+                <option value="0">Любой предмет</option>
+                {foreach from=$teachingSubjects item=subject}
+                <option value="{$subject.id}">{$subject.name}</option>
+                {/foreach}
+            </select>
+        </div>
+        <div>
+            <select class="form-control custom-select my-select" id="order-select">
+                <option value="0">Порядок</option>
+                <option value="1">Сначала дешевле</option>
+                <option value="2">Сначала дороже</option>
+                <option value="3">Сначала опытные</option>
+                <option value="4">Сначала новички</option>
+            </select>
+        </div>
+        <input type="submit" class="btn btn-primary" value="Найти"
+               id="search-btn"
+               onclick="TutorsList.getList()"
+               style="height: 38px; margin-left: 15px; background-color: #002752"/>
+    </nav>
+    <div id="spinner"></div>
+    <div class="card-body" id="tutors-list">
+    </div>
+    <div class="card-footer align-content-center">
 
-<ui id="paging" style="display: flex; flex-direction: row;">
-
-</ui>
+    </div>
 </div>
 <script defer src="/scripts/tutors_list_script.js"></script>

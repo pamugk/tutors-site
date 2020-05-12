@@ -61,7 +61,7 @@ class UI {
                     <nav class=\"sidebar\">
                         $sidebar
                     </nav>
-                    <main class=\"main-content container\">
+                    <main class=\"main-content\">
                         $content
                     </main>
                     <footer class=\"footer\">
