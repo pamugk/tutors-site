@@ -1,11 +1,7 @@
 {if $user == null}
 <section style="opacity: 80%;" class="card card-default w-50 mx-auto my-auto">
     <h4 class="card-header">Вход</h4>
-    <div class="d-flex justify-content-center align-content-center">
-        <div class="spinner-border d-none" id="spinner" role="status">
-          <span class="sr-only">Loading...</span>
-        </div>
-    </div>
+    <div id="spinner" role="status"></div>
     <div id="error" class="alert alert-danger" style="display: none"></div>
     <form id="login-form" class="card-body">
         <div class="form-group">

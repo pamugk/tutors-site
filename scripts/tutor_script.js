@@ -16,14 +16,14 @@ const Tutor = {
     },
 
     async tutor() {
-        this.spinnerElement.classList.remove('d-none');
+        this.spinnerElement.classList.add('loader');
         fetch(`${PREFIX}backend/tutor.php`, 
             { 
                 method: 'post',
                 body: new FormData(this.tutorFormElement)
             })
             .then(response => {
-                this.spinnerElement.classList.add('d-none');
+                this.spinnerElement.classList.remove('loader');
                 if (response.status == 200)
                     window.location.replace(`${PREFIX}personal`);
                 else response.json().then(data => this.showError(data.error));

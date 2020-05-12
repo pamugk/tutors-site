@@ -3,31 +3,63 @@ include_once "database.class.php";
 
 class Validator {
     private static $passwordPersonalFields = array(
-        'password' => 'Пароль', 'password2' => 'Повтор пароля'
+        'password' => array('name' => 'Пароль', 'type' => 'string'), 
+        'password2' => array('name' => 'Повтор пароля', 'type' => 'string')
     );
 
     private static $requiredLoginFields = array(
-        'login' => 'Логин', 'password' => 'Пароль'
+        'login' => array('name' => 'Логин', 'type' => 'string'), 
+        'password' => array('name' => 'Пароль', 'type' => 'string')
     );
 
     private static $requiredPersonalFields = array(
-        'name' => 'Имя', 'surname' => 'Фамилия', 'login' => 'Логин'
+        'name' => array('name' => 'Имя', 'type' => 'string'), 
+        'surname' => array('name' => 'Фамилия', 'type' => 'string'), 
+        'login' => array('name' => 'Логин', 'type' => 'string')
     );
 
     private static $requiredRegistrationFields = array(
-        'name' => 'Имя', 'surname' => 'Фамилия',
-        'login' => 'Логин', 'password' => 'Пароль', 'password2' => 'Повтор пароля'
+        'name' => array('name' => 'Имя', 'type' => 'string'), 
+        'surname' => array('name' => 'Фамилия', 'type' => 'string'),
+        'login' => array('name' => 'Логин', 'type' => 'string'),
+        'password' => array('name' => 'Пароль', 'type' => 'string'), 
+        'password2' => array('name' => 'Повтор пароля', 'type' => 'string')
     );
 
     private static $requiredTutorFields = array(
-        'experience' => 'Стаж'
+        'experience' => array('name' => 'Стаж', 'type' => 'integer', 'options' => array('options' => array('min_range' => 0, 'max_range' => 120))),
+        'price' => array('name' => 'Оплата за 1 час', 'type' => 'integer', 'options' => array('options' => array('min_range' => 0, 'max_range' => 9223372036854775807)))
     );
 
     private static function validateFields($info, $fields) {
-        foreach ($fields as $key => $value)
-            if (!array_key_exists($key, $info) || $info[$key] === '')
-                return "Не заполнено поле '$value'";
+        foreach ($fields as $key => $value) {
+            if (!array_key_exists($key, $info))
+                return "Не заполнено поле '".$value['name']."'";
+            $outcome = self::validateValueType($info[$key], $value);
+            if ($outcome !== false)
+                return $outcome;
+        }
         return false;
+    }
+
+    private static function validateValueType($value, $field) {
+        $result = false;
+        switch ($field['type']) {
+            case  'string': {
+                if ($value == '')
+                    $result = "Поле '".$field['name']."' не может быть пустым";
+                break;
+            }
+            case 'integer': {
+                if (filter_var($value, FILTER_VALIDATE_INT, $field['options']) === false)
+                    $result = "Поле '".$field['name']."' должно содержать целое число (в промежутке от ".$field['options']['options']['min_range']." до ".$field['options']['options']['max_range'] .")";
+                break;
+            }
+            case 'bigint': {
+
+            }
+        }
+        return $result;
     }
 
     public static function validateLoginInfo($info) {
@@ -78,8 +110,6 @@ class Validator {
         $fieldValidation = self::validateFields($info, self::$requiredTutorFields);
         if ($fieldValidation)
             return $fieldValidation;
-        if ($info['experience'] < 0 || $info['experience'] > 120)
-            return 'Стаж измеряется в годах, поэтому это - неотрицательное число, имеющее разумное значение (т.е. не больше 120)';
         return false;
     }
 

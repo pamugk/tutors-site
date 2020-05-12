@@ -194,10 +194,10 @@ class Database {
     }
 
     public function getTutorInfo($tutorId) {
-        $result = $this->executePreparedQuery('getTutorInfo', 'SELECT about, experience FROM "data".tutors WHERE id=$1', array($tutorId));
+        $result = $this->executePreparedQuery('getTutorInfo', 'SELECT about, experience, price FROM "data".tutors WHERE id=$1', array($tutorId));
         if ($result) {
             $row = pg_fetch_array($result);
-            $info = array('about' => $row[0], 'experience' => $row[1]);
+            $info = array('about' => $row[0], 'experience' => $row[1], 'price' => $row[2]);
             $this->freeResult($result);
         }
         else $info = array();
@@ -262,7 +262,7 @@ class Database {
 
     public function updateTutorInfo($tutorInfo) {
         $this->executePreparedQuery('updateTutorInfo',
-        'UPDATE "data".tutors SET about=$2, experience=$3  WHERE id=$1;', $tutorInfo);
+        'UPDATE "data".tutors SET about=$2, experience=$3, price=$4  WHERE id=$1;', $tutorInfo);
     }
 
     public function updateTutorSubjects($tutorId, $subjectsIds) {

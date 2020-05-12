@@ -18,11 +18,7 @@
         <div class="container col">
             <form id="personal-form" class="col" enctype="multipart/form-data" method="POST">
                 <h3 class="card-header">Персональные данные</h3>
-                <div class="d-flex justify-content-center align-content-center">
-                    <div class="spinner-border d-none" id="spinner1" role="status">
-                      <span class="sr-only">Loading...</span>
-                    </div>
-                </div>
+                <div id="spinner1" role="status"></div>
                 <div id="error" class="alert alert-danger" style="display: none"></div>
                 <div class="form-group">
                     <label for="name-input">Имя:</label>
@@ -63,11 +59,7 @@
             {if $user.isTutor}
             <form id="tutor-form" class="col my-2">
                 <h3 class="card-header">Данные репетитора</h3>
-                <div class="d-flex justify-content-center align-content-center">
-                    <div class="spinner-border d-none" id="spinner2" role="status">
-                      <span class="sr-only">Loading...</span>
-                    </div>
-                </div>
+                <div id="spinner2" role="status"></div>
                 <div id="error2" class="alert alert-danger" style="display: none"></div>
                 {if $subjectsOfTutor|@count == 0}
                     <div class="alert alert-warning text-center mx-auto my-auto">
@@ -91,6 +83,10 @@
                 <div class="form-group">
                     <label for="experience-input">Стаж</label>
                     <input type="number" name="experience" class="form-control" id="experience-input" min="0" max="120" value="{$tutorInfo.experience}">
+                </div>
+                <div class="form-group">
+                    <label for="price-input">Оплата за 1 час</label>
+                    <input type="number" name="price" class="form-control" id="price-input" min="0" value="{$tutorInfo.price}">
                 </div>
                 <input type="submit" class="btn btn-primary" value="Сохранить"/>
             </form>

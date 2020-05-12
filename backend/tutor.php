@@ -19,10 +19,10 @@ elseif(key_exists('ID',$_SESSION)) {
         else {
             $response_code = 200;
             Database::getInstance()->updateTutorInfo(array($_SESSION['ID'], 
-            key_exists('about', $_POST) ? $_POST['about'] : '', $_POST['experience']));
+            key_exists('about', $_POST) ? $_POST['about'] : '', $_POST['experience'], $_POST['price']));
             $selectedSubjects = $_POST['subjects'];
             Database::getInstance()->clearTutorSubjects($_SESSION['ID']);
-            if (!empty($selectedSubjects) > 0)
+            if (!empty($selectedSubjects))
                 Database::getInstance()->updateTutorSubjects($_SESSION['ID'], $selectedSubjects);
         }
     }
