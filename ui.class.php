@@ -54,7 +54,7 @@ class UI {
                     <link rel=\"stylesheet\" href=\"styles/style.css\"/>                
                 </head>
                 <body>
-                    <script>const PREFIX = 'http://localhost:8080/';</script>
+                    <script>const PREFIX = 'http://localhost:8081/';</script>
                     <header>
                         $header
                     </header>

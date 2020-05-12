@@ -82,5 +82,40 @@ class Validator {
             return 'Стаж измеряется в годах, поэтому это - неотрицательное число, имеющее разумное значение (т.е. не больше 120)';
         return false;
     }
+
+    public static function validatePageData(&$info) {
+        if (!isset($info['q']) or $info['q'] == null) {
+            $info['q'] = '';
+        }
+
+        if (!isset($info['n']) or $info['n'] == null) {
+            $info['n'] = 1;
+        } elseif (!is_numeric($info['n'])) {
+            return 'Неверно указан номер страницы!';
+        } elseif ($info['n'] < 1) {
+            return 'Номер страницы - положительное число!';
+        }
+
+        if (!isset($info['s']) or $info['s'] == null) {
+            $info['s'] = 10;
+        } elseif (!is_numeric($info['s'])) {
+            return 'Неверно указано количество элементов на странице!';
+        } elseif ($info['s'] < 1) {
+            return 'Количество элементов на странице - положительное число!';
+        }
+
+        if (!isset($info['ts']) or $info['ts'] == null) {
+            $info['ts'] = null;
+        } elseif (!is_numeric($info['ts']) or $info['ts'] < 0) {
+            return 'Неверно указан предмет!';
+        }
+
+        if (!isset($info['o']) or $info['o'] == null) {
+            $info['o'] = 0;
+        } elseif (!is_numeric($info['o']) or $info['o'] < 0 or $info['o'] > 4) {
+            return 'Неверно указан порядок!';
+        }
+        return false;
+    }
 }
 ?>
