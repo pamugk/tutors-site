@@ -55,7 +55,7 @@ const TutorsList = {
                                     tsConcat += ts + '<br>';
                                 }
                                 this.list.innerHTML += `
-                                    <div class="card-utor">
+                                    <div class="card-tutor">
                                         <div style="width: 180px; padding-right: 30px;">
                                             <img src=${tutor.image} id="img-tutor" width="150" onload="TutorsList.stopSpinner(${i})"> 
                                                 <div class="loader-img" id="spinner${i}"></div> 

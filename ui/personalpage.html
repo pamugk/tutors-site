@@ -4,13 +4,13 @@
     Если у вас уже есть аккаунт - авторизуйтесь.
 </div>
 {else}
-<div class="card-body container col" style="background-color: #f5f5f5; opacity: 70%;">
+<div class="card-body container col" style="background-color: #f5f5f5; opacity: 85%; height: 99%; align-content: center">
     <div class="alert alert-warning mx-auto my-2">
         Все изменения будут действительны только после нажатия кнопки "Сохранить".<br/>
         Да, и статус репетитора тоже.<br/>
         Да, специфичные для репетиторов опции доступны только тем, у кого зафиксирован статус "Репетитор", не надо писать в техподдержку.
     </div>
-    <div class="container row my-2">
+    <div class="container row mx-auto  my-2">
         <div class="col-3">
             <img id="avatarImg" src="{$avatar}" class="img-thumbnail">
             <input accept="image/jpg, image/png, image/jpeg" class="form-control" form="personal-form" name="avatar" type="file" onchange="Personal.updImage(this)">
