@@ -19,41 +19,41 @@ const Personal = {
     },
 
     checked(changePwdCheckbox) {
-        disablePwd = !changePwdCheckbox.checked
-        this.passwordElement.disabled = disablePwd
-        this.password2Element.disabled = disablePwd
+        let disablePwd = !changePwdCheckbox.checked;
+        this.passwordElement.disabled = disablePwd;
+        this.password2Element.disabled = disablePwd;
         if (disablePwd) {
-            this.passwordElement.value = null
-            this.password2Element.value = null
+            this.passwordElement.value = null;
+            this.password2Element.value = null;
         }
     },
 
     updImage(input) {
-        var reader = new FileReader();
-        var img = this.imageElement;
+        const reader = new FileReader();
+        const img = this.imageElement;
         reader.onloadend = function() {
             img.src = reader.result;
-        }
+        };
         reader.readAsDataURL(input.files[0]);
     },
 
     async personal() {
         this.spinnerElement.classList.add('loader');
-        fetch(`${PREFIX}backend/personal.php`, 
+        fetch('/backend/personal.php',
             { 
                 method: 'post',
                 body: new FormData(this.formElement)
             })
             .then(response => {
                 this.spinnerElement.classList.remove('loader');
-                if (response.status == 200)
-                    window.location.replace(`${PREFIX}personal`);
+                if (response.status === 200)
+                    window.location.replace('/personal');
                 else response.json().then(data => this.showError(data.error));
             })
             .catch(error =>  { 
                 this.spinnerElement.classList.add('d-none'); console.log('Request failed', error) 
             });
     },
-}
+};
 
 Personal.init();

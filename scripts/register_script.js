@@ -17,21 +17,21 @@ const Register = {
 
     async registrate() {
         this.spinnerElement.classList.add('loader');
-        fetch(`${PREFIX}backend/registration.php`,
+        fetch('/backend/registration.php',
             { 
                 method: 'post',
                 body: new FormData(this.formElement)
             })
             .then(response => {
                 this.spinnerElement.classList.remove('loader');
-                if (response.status == 201)
-                    window.location.replace(PREFIX);
+                if (response.status === 201)
+                    window.location.replace('/');
                 else response.json().then(data => this.showError(data.error));
             })
             .catch(error =>  { 
                 this.spinnerElement.classList.add('d-none'); console.log('Request failed', error) 
             });
     },
-}
+};
 
 Register.init();

@@ -17,7 +17,7 @@ const Login = {
 
     async login() {
         this.spinnerElement.classList.add('loader');
-        fetch(`${PREFIX}backend/login.php`,
+        fetch('/backend/login.php',
             { 
                 method: 'post',
                 body: new FormData(this.formElement)
@@ -25,7 +25,7 @@ const Login = {
             .then(response => {
                 this.spinnerElement.classList.remove('loader');
                 if (response.status === 200)
-                    window.location.replace(PREFIX);
+                    window.location.replace('/');
                 else response.json().then(data => this.showError(data.error));
             })
             .catch(error =>  { 

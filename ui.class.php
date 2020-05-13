@@ -54,7 +54,6 @@ class UI {
                     <link rel=\"stylesheet\" href=\"styles/style.css\"/>                
                 </head>
                 <body>
-                    <script>const PREFIX = '/';</script>
                     <header>
                         $header
                     </header>

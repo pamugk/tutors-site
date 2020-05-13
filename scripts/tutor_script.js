@@ -17,21 +17,21 @@ const Tutor = {
 
     async tutor() {
         this.spinnerElement.classList.add('loader');
-        fetch(`${PREFIX}backend/tutor.php`, 
+        fetch('/backend/tutor.php/',
             { 
                 method: 'post',
                 body: new FormData(this.tutorFormElement)
             })
             .then(response => {
                 this.spinnerElement.classList.remove('loader');
-                if (response.status == 200)
-                    window.location.replace(`${PREFIX}personal`);
+                if (response.status === 200)
+                    window.location.replace('/personal');
                 else response.json().then(data => this.showError(data.error));
             })
             .catch(error =>  { 
                 this.spinnerElement.classList.add('d-none'); console.log('Request failed', error) 
             });
     },
-}
+};
 
 Tutor.init();

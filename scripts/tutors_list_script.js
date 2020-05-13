@@ -23,7 +23,7 @@ const TutorsList = {
     },
 
     async getCount() {
-        await fetch(`${PREFIX}backend/tutors/count.php?q=${this.inpSearch.value}&ts=${this.subjectSelect.options[this.subjectSelect.selectedIndex].value}`)
+        await fetch(`/backend/tutors/count.php?q=${this.inpSearch.value}&ts=${this.subjectSelect.options[this.subjectSelect.selectedIndex].value}`)
             .then(response => {
                 if (response.status === 200) {
                     response.text()
@@ -51,7 +51,7 @@ const TutorsList = {
     async getList() {
         this.list.innerHTML = '';
         this.spinner.classList.add('loader');
-        await fetch(`${PREFIX}backend/tutors/list.php?n=${this.pageNum}&s=${this.pageSize}&q=${this.inpSearch.value}&o=${this.orderSelect.options[this.orderSelect.selectedIndex].value}&ts=${this.subjectSelect.options[this.subjectSelect.selectedIndex].value}`)
+        await fetch(`/backend/tutors/list.php?n=${this.pageNum}&s=${this.pageSize}&q=${this.inpSearch.value}&o=${this.orderSelect.options[this.orderSelect.selectedIndex].value}&ts=${this.subjectSelect.options[this.subjectSelect.selectedIndex].value}`)
             .then(response => {
                 if (response.status === 200) {
                     response.json()
@@ -97,10 +97,10 @@ const TutorsList = {
                                             </div>
                                         </div>
                                         <div class="tutor-price">
-                                            <div class="card-header" style="background-color: transparent; color: darkred;">
+                                            <div class="card-header" style="background-color: transparent; color: darkred; padding-right: 0">
                                                 Оплата за 1 час
                                             </div>
-                                            <div class="card-body" style="color: #1c7430; font-size: 30px;">
+                                            <div class="card-body" style="color: #1c7430; font-size: 30px; width: 100%">
                                                 ${tutor.price} руб.
                                             </div>
                                         </div>

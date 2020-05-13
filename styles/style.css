@@ -54,10 +54,30 @@ main {
     height: 110px;
 }
 
-.main-content {
-    align-items: center;
-    margin: 0 auto;
-    width: 60%;
+@media (min-width: 1730px) {
+    .main-content {
+        align-items: center;
+        margin: 0 auto;
+        width: 60%;
+    }
+}
+
+@media (max-width: 1729px) {
+    .main-content {
+        align-items: center;
+        margin: 0 auto;
+        width: 1029px;
+    }
+}
+
+@media (max-width: 1030px) {
+    .footer {
+        width: 1029px;
+    }
+
+    .header {
+        width: 1029px;
+    }
 }
 
 .tutors-list {
@@ -103,6 +123,7 @@ main {
 .card-tutor {
     display: flex;
     flex-direction: row;
+    width: 100%;
     background-color: #EDEDED;
     height: 170px;
     padding: 10px;
@@ -142,7 +163,7 @@ main {
 
 .tutor-price {
     border-left: 1px solid #BEBDC0;
-    width: 500px;
+    min-width: 180px;
     align-self: self-end;
 }
 
