@@ -1,6 +1,5 @@
 <?php
 include "setup.php";
-require('vendor/autoload.php');
 
 class Config {
     private static $instance = null;
