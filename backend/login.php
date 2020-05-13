@@ -2,9 +2,13 @@
 include_once "../database.class.php";
 include_once "../validator.class.php";
 
+include_once "../pgSessionHandler.class.php";
+session_set_save_handler(PgSessionHandler::getInstance(), true);
+
 session_start();
 $loggedIn = key_exists('ID',$_SESSION);
-session_write_close();
+
+$response = '';
 
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     $response_code = 405;
@@ -30,10 +34,8 @@ else {
     }
     elseif (password_verify($_POST['password'], $row[1])) {
         $response_code = 200;
-        session_start();
         session_regenerate_id();
         $_SESSION['ID'] = $row[0];
-        session_write_close();
     }
     else {
         $response_code = 403;

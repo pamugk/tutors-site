@@ -1,5 +1,5 @@
 <?php
-require_once PATH."/libs/Smarty.class.php";
+require('vendor/autoload.php');
 
 class UI {
     private static function getAboutPage() {

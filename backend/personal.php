@@ -1,6 +1,9 @@
 <?php
 include_once "../database.class.php";
 include_once "../validator.class.php";
+
+include_once "../pgSessionHandler.class.php";
+session_set_save_handler(PgSessionHandler::getInstance(), false);
 $response_code = 418;
 $response = "";
 

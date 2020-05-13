@@ -1,6 +1,9 @@
 <?php
-include "database.class.php";
-include "ui.class.php";
+include_once "database.class.php";
+include_once "pgSessionHandler.class.php";
+include_once "ui.class.php";
+
+session_set_save_handler(PgSessionHandler::getInstance(), false);
 
 Database::reinitializeConnection();
 $result = Database::getInstance()->getPathPage($_SERVER["REQUEST_URI"]);
