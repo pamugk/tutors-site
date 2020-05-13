@@ -54,7 +54,7 @@ class UI {
                     <link rel=\"stylesheet\" href=\"styles/style.css\"/>                
                 </head>
                 <body>
-                    <script>const PREFIX = 'https://tutors-site.herokuapp.com/';</script>
+                    <script>const PREFIX = '{$prefix}';</script>
                     <header>
                         $header
                     </header>

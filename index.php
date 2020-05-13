@@ -18,7 +18,11 @@ else {
 //$countTutors = Database::getInstance()->getCountTutors();
 //$tutors = Database::getInstance()->getListTutors(1, 10, null, null);
 
-$bind = array('user' => null, 'teachingSubjects' => Database::getInstance()->getAllTeachingSubjects());
+$bind = array(
+    'user' => null, 
+    'teachingSubjects' => Database::getInstance()->getAllTeachingSubjects(),
+    'prefix' => $_SERVER['SERVER_NAME']
+);
 
 session_start();
 $id = key_exists('ID',$_SESSION) ? $_SESSION['ID'] : false;
