@@ -1,8 +1,7 @@
 {
     "require":{
         "php": "~7.4.0",
-        "smarty/smarty": "~3.1",
-        "mbstring": "*"
+        "smarty/smarty": "~3.1"
     },
     "require-dev": {
         "heroku/heroku-buildpack-php": "*"

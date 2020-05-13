@@ -7,8 +7,6 @@ class Config {
     public $config = array();
 
     private function __construct() {
-        mb_internal_encoding("UTF-8");
-
         $cfg_file = PATH . '/includes/config.inc.php';
 
         if (file_exists($cfg_file))
