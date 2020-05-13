@@ -148,11 +148,11 @@ class Database {
                 break;
             }
             case 3: {           // Сначала опытные
-                $orderBy = 'ORDER BY experience';
+                $orderBy = 'ORDER BY experience DESC';
                 break;
             }
             case 4: {           // Сначала новички
-                $orderBy = 'ORDER BY price DESC';
+                $orderBy = 'ORDER BY experience';
                 break;
             }
         }
