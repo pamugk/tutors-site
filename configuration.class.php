@@ -35,8 +35,8 @@ class Config {
     public static function getDefaultConfig() {
         $cfg['timezone'] = 'Asia/Yekaterinburg';
         $cfg['db_host'] = 'ec2-54-228-209-117.eu-west-1.compute.amazonaws.com';
-        $cfg['db_port'] = 'd66n7s83jl789u';
-        $cfg['db_base'] = 'tutors';
+        $cfg['db_port'] = '5432';
+        $cfg['db_base'] = 'd66n7s83jl789u';
         $cfg['db_user'] = 'ewhaapdwpllmka';
         $cfg['db_pass'] = '065a7dfd14d5562cf774811a11d240ad1eb8fbc3a4af0ac3db5b4cd64339597a';
 
