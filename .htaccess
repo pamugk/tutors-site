@@ -1,5 +1,5 @@
 DirectorySlash Off
-Options Indexes
+Options FollowSymLinks Indexes
 DirectoryIndex index.php
 
 RewriteEngine on
