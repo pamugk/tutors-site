@@ -1,14 +1,17 @@
 <?php
 include_once "../database.class.php";
 include_once "../validator.class.php";
+
 session_start();
-$response = "";
+$loggedIn = key_exists('ID',$_SESSION);
+session_write_close();
+
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     $response_code = 405;
     header("Allow: POST");
     $response = array('error' => "Запрос не поддерживается");
 }
-elseif (key_exists('ID',$_SESSION)) {
+elseif ($loggedIn) {
     $response_code = 418;
     $response = array('error' => "Вход уже был осуществлён");
 }
@@ -27,7 +30,10 @@ else {
     }
     elseif (password_verify($_POST['password'], $row[1])) {
         $response_code = 200;
+        session_start();
+        session_regenerate_id();
         $_SESSION['ID'] = $row[0];
+        session_write_close();
     }
     else {
         $response_code = 403;

@@ -2,7 +2,6 @@
 include "database.class.php";
 include "ui.class.php";
 
-session_start();
 Database::reinitializeConnection();
 $result = Database::getInstance()->getPathPage($_SERVER["REQUEST_URI"]);
 if (!$result)
@@ -18,10 +17,13 @@ else {
 
 $bind = array('user' => null, 'teachingSubjects' => Database::getInstance()->getAllTeachingSubjects());
 
-$loggedIn = key_exists('ID',$_SESSION);
+session_start();
+$id = key_exists('ID',$_SESSION) ? $_SESSION['ID'] : false;
+session_write_close();
+$loggedIn = $id !== false;
 
 if ($loggedIn) {
-    $user = Database::getInstance()->getUser($_SESSION['ID']);
+    $user = Database::getInstance()->getUser($id);
     $bind['user'] = $user;
     $bind['avatar'] = $user['avatarId'] == null ? "/images/avatar.png" : "/backend/images.php?id=".$user['avatarId'];
 }
@@ -29,8 +31,8 @@ if ($loggedIn) {
 switch ($page) {
     case 'personal': {
         if ($loggedIn && $user['isTutor']) {
-            $bind['subjectsOfTutor'] = Database::getInstance()->checkSubjectsTaughtByTutor($_SESSION['ID']);
-            $bind['tutorInfo'] = Database::getInstance()->getTutorInfo($_SESSION['ID']);
+            $bind['subjectsOfTutor'] = Database::getInstance()->checkSubjectsTaughtByTutor($id);
+            $bind['tutorInfo'] = Database::getInstance()->getTutorInfo($id);
         }
         break;
     }

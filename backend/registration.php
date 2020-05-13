@@ -3,7 +3,11 @@ include_once "../database.class.php";
 include_once "../validator.class.php";
 $response_code = 418;
 $response = "";
+
 session_start();
+$loggedIn = key_exists('ID',$_SESSION);
+session_write_close();
+
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     $response_code = 405;
     header("Allow: POST");
@@ -13,7 +17,7 @@ elseif ($validationResult = Validator::validateRegistrationInfo($_POST)) {
         $response_code = 400;
         $response = array('error' => $validationResult);
 }
-elseif (key_exists('ID',$_SESSION)) {
+elseif ($loggedIn) {
     $response_code = 418;
     $response = array('error' => "Вы же уже зарегестированы, зачем вам ещё одна учётная запись?");
 }
