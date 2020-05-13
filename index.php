@@ -20,8 +20,7 @@ else {
 
 $bind = array(
     'user' => null, 
-    'teachingSubjects' => Database::getInstance()->getAllTeachingSubjects(),
-    'prefix' => $_SERVER['SERVER_NAME']
+    'teachingSubjects' => Database::getInstance()->getAllTeachingSubjects()
 );
 
 session_start();
