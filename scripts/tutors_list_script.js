@@ -16,6 +16,7 @@ const TutorsList = {
     pageNum: 1,
     pageSize: 5,
     countPages: 1,
+    tutors: null,
 
     async init() {
         this.getCount();
@@ -59,6 +60,7 @@ const TutorsList = {
                             this.list.innerHTML = '';
                             console.log(tutors);
                             let i = 0;
+                            this.tutors = tutors;
                             for (let tutor of tutors) {
                                 i++;
                                 let tsConcat = '';
@@ -66,7 +68,7 @@ const TutorsList = {
                                     tsConcat += ts + '<br>';
                                 }
                                 this.list.innerHTML += `
-                                    <div class="card-tutor">
+                                    <div class="card-tutor" onclick="TutorsList.goToCard(${i-1})">
                                         <div style="width: 180px; padding-right: 30px;">
                                             <img src=${tutor.image} id="img-tutor" width="150" onload="TutorsList.stopSpinner(${i})"> 
                                                 <div class="loader-img" id="spinner${i}"></div> 
@@ -196,6 +198,11 @@ const TutorsList = {
     async search() {
         this.getCount();
         await this.getList();
+    },
+
+    goToCard(tutorIdx) {
+        global_tutor = this.tutors[tutorIdx];
+        window.location.replace('tutor');
     }
 };
 

@@ -1,5 +1,42 @@
 <div class="tutor-page">
-    <!--Информация-->
-    <!--Описание-->
-    <!--Сообщения-->
+    <div class="card-tutor">
+        <div style="width: 180px; padding-right: 30px;">
+            <img id="img-tutor" width="150" onload="TutorsList.stopSpinner(${i})">
+            <div class="loader-img" id="spinner"></div>
+            <img/>
+        </div>
+        <div class="data-tutor">
+            <div class="row-data">
+                <label class="label">Имя:</label>
+                <label class="label-value">124</label>
+            </div>
+            <div class="row-data">
+                <label class="label">Фамилия:</label>
+                <label class="label-value">12321</label>
+            </div>
+            <div class="row-data">
+                <label class="label">Отчество:</label>
+                <label class="label-value">12312</label>
+            </div>
+            <div class="row-data">
+                <label class="label">Стаж:</label>
+                <label class="label-value">123123</label>
+            </div>
+        </div>
+        <div>
+            <div class="row-data" style="margin-left: 20px;">
+                <label class="label" style="height: 150px;">Предметы:</label>
+                <label class="label-value">12312</label>
+            </div>
+        </div>
+        <div class="tutor-price">
+            <div class="card-header" style="background-color: transparent; color: darkred; padding-right: 0">
+                Оплата за 1 час
+            </div>
+            <div class="card-body" style="color: #1c7430; font-size: 30px; width: 100%">
+                121434 руб.
+            </div>
+        </div>
+    </div>
+    <script defer src="/scripts/tutor_card_script.js"></script>
 </div>

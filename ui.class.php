@@ -54,6 +54,7 @@ class UI {
                     <link rel=\"stylesheet\" href=\"styles/style.css\"/>                
                 </head>
                 <body id='body'>
+                    <script>let global_tutor = null</script>
                     <header>
                         $header
                     </header>
