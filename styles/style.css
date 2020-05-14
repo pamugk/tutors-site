@@ -269,3 +269,37 @@ main {
     justify-content: space-between;
     align-items: center;
 }
+
+.main-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.main-button {
+    z-index: 1000;
+    height: 60px;
+    padding: 10px;
+    background: yellow;
+    border: 0;
+    border-radius: 5px
+}
+
+.main-button:hover {
+    background: yellowgreen;
+}
+
+.main-button:active {
+    background: yellow;
+}
+
+.main-label {
+    font-family: 'Marker Felt', monospace;
+    color: whitesmoke;
+    min-width: 450px;
+    background-color: rgba(255, 255, 255, .1);
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+}

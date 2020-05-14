@@ -53,7 +53,7 @@ class UI {
                     <link rel=\"stylesheet\" href=\"styles/normalize.css\"/>
                     <link rel=\"stylesheet\" href=\"styles/style.css\"/>                
                 </head>
-                <body>
+                <body id='body'>
                     <header>
                         $header
                     </header>
