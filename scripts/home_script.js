@@ -17,7 +17,6 @@ const Home = {
                     response.json()
                         .then(tutors => {
                             this.list.innerHTML = '';
-                            console.log(tutors);
                             let i = 0;
                             this.tutors = tutors;
                             for (let tutor of tutors) {
@@ -32,7 +31,7 @@ const Home = {
                                                     <i class="course-link-icon fa fa-search-plus" style="border: 0"></i>
                                                 </a>
                                             </div>
-                                            <a class="tutor-home-title" href="#">${fullName}</a>
+                                            <a class="tutor-home-title" href="/tutor?id=${tutor.id}">${fullName}</a>
                                             <div class="tutor-home-details">
                                                 <span class="course-category">Оплата за час</span>
                                                 <span class="tutor-home-price price">${tutor.price} руб</span>
@@ -49,9 +48,9 @@ const Home = {
     },
 
     showPhoto(url) {
-        console.log('sdf');
         this.photo.setAttribute('src', url);
         this.photoModal.style.visibility='visible';
+        document.getElementById('myModal').setAttribute('aria-hidden', 'false');
     },
 
     closePhoto() {

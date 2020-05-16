@@ -64,7 +64,7 @@ class UI {
                     <link rel=\"stylesheet\" href=\"styles/font-awesome.min.css\">
                 
                     <!-- Custom stlylesheet -->
-                    <link type=\"text/css\" rel=\"stylesheet\" href=\"styles/style-home.css\"/>   
+                    <link type=\"text/css\" rel=\"stylesheet\" href=\"styles/styles.css\"/>   
                 </head>
                 <body id='body'>
                     $header
@@ -76,6 +76,42 @@ class UI {
                     <!-- preloader -->
                     <div id='preloader'><div class='preloader'></div></div>
                     <!-- /preloader -->
+                    
+                    <!-- contact us --> 
+                    <div class=\"modal fade\" id=\"modal-contact-us\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">
+                        <div class=\"modal-dialog\" role=\"document\">
+                            <div class=\"modal-content\">
+                                <div class=\"modal-header\">
+                                    <h5 class=\"modal-title\" id=\"exampleModalLabel\">Обратная связь</h5>
+                                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">
+                                        <span aria-hidden=\"true\">&times;</span>
+                                    </button>
+                                </div>
+                                <form id=\"msg-form\" onsubmit='sendMessageToUs()' >
+                                    <div class=\"modal-body\">        
+                                        <div id=\"alert\" style='visibility: hidden'></div>
+                                        <div id='spinner-modal'></div>
+                                        <div class=\"form-group\">
+                                            <label for=\"email-input\">Твой e-mail:</label>
+                                            <input type=\"email\" pattern=\".+@.+\" name=\"email\" class=\"form-control\" id=\"email-input\" placeholder=\"E-mail\" required>
+                                        </div>
+                                        <div class=\"form-group\">
+                                            <label for=\"msg-input\">Твое сообщение:</label>
+                                            <textarea class=\"form-control\" style='border-color:#EBEBEB;' id=\"msg-input\" name=\"msg\" placeholder=\"Текст сообщения\"
+                                                      type=\"text\" required></textarea>
+                                        </div>
+                        
+                                        <div class=\"modal-footer\">
+                                            <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Отмена</button>
+                                            <button type='submit' id=\"btn-send-msg\" type=\"button\" class=\"btn btn-primary\">Отправить</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /contact us --> 
+                    
                 </body>
                 <script defer src=\"/scripts/fontawesome/solid.min.js\"></script>
                 <script defer src=\"/scripts/fontawesome/fontawesome.min.js\"></script>

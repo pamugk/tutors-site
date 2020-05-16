@@ -128,7 +128,6 @@ const TutorsList = {
     },
 
     async changePage(pageNum) {
-        console.log(this.countPages);
         if (this.pageNum === pageNum) {
             return;
         }
@@ -195,7 +194,6 @@ const TutorsList = {
     },
 
     showPhoto(url) {
-        console.log('sdf');
         this.photo.setAttribute('src', url);
         this.photoModal.style.visibility='visible';
     },

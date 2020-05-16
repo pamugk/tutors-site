@@ -10,7 +10,7 @@
 }
 
 .message-list {
-    background-color: green;
+    background-color: #56A456;
     max-height: 20%;
     overflow-y:auto;
 }

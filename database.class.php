@@ -414,5 +414,14 @@ class Database {
 
         return $teachingSubjects;
     }
+
+    public function contactUs($email, $msg) {
+        $result = $this->executePreparedQuery("",
+            'INSERT INTO "data".contact_messages("email", "text") VALUES($1, $2) RETURNING id;',
+            array($email, $msg));
+        $id = $result ? pg_fetch_result($result, 0, 0) : false;
+        $this->freeResult($result);
+        return $id;
+    }
 }
 ?>

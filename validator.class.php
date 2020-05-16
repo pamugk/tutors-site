@@ -31,6 +31,11 @@ class Validator {
         'price' => array('name' => 'Оплата за 1 час', 'type' => 'integer', 'options' => array('options' => array('min_range' => 0, 'max_range' => 9223372036854775807)))
     );
 
+    private static $requiredContactFields = array(
+        'email' => array('name' => 'E-mail', 'type' => 'string'),
+        'msg' => array('name' => 'Текст сообщения', 'type' => 'string')
+    );
+
     private static function validateFields($info, $fields) {
         foreach ($fields as $key => $value) {
             if (!array_key_exists($key, $info))
@@ -167,6 +172,17 @@ class Validator {
         return false;
     }
 
-
+    public static function validateContactInfo($info) {
+        $fieldValidation = self::validateFields($info, self::$requiredContactFields);
+        if ($fieldValidation)
+            return $fieldValidation;
+        if (!preg_match("/^.+@.+$/", $info['email'])) {
+            return 'Некорректный email';
+        }
+        if ($info['msg'] == '') {
+            return 'Необходимо ввести текст сообщения';
+        }
+        return false;
+    }
 }
 ?>
