@@ -1,9 +1,230 @@
-<main class="main-body">
-    <img class="main-image" src="../images/kinder.png" height="400" style="position: relative; top: 410px;"/>
-    <input onclick="Main.goToRegistration()" class="main-button" type="submit" style="position: relative; right: 42px; top: 448px;" value="Начать учиться">
-    <input onclick="Main.goToRegistration()" class="main-button" type="submit" style="position: relative; left: 270px; top: 100px;" value="Стать репетитором">
-    <img class="main-image" src="../images/person.png" height="800" style="position: relative; left: 200px"/>
-    <label class="main-label" style="position: relative; right: 800px; top: 50px; height: 200px;">Умеешь доходчиво объяснять материал, но не знаешь где и как найти клиентов? <br>Тогда ты точно по адресу!  <br>Регестрируся, заполняй резюме и жди пока ученики напишут тебе сами!  <br>Все бесплатно, с тебя только качественная работа, чтобы было меньше жалоб! </label>
-    <label class="main-label" style="position: relative; right: 1000px; top: 550px; height: 150px;">Наконец-то решился заполнить пробелы в знаниях? <br>Тогда ты точно по адресу!  <br>Регестрируся, и пиши любому репетитору, который тебе понравится! </label>
-    <script defer src="/scripts/main_script.js"></script>
-</main>
+<!-- Home -->
+<div id="home" class="hero-area">
+
+    <!-- Backgound Image -->
+    <div class="bg-image bg-parallax overlay" style="background-image:url(../images/home-background.jpg)"></div>
+    <!-- /Backgound Image -->
+
+    <div class="home-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <h1 class="white-text">TUTORS.RU - бесплатный онлайн сервис для поиска репетиторов</h1>
+                    <p class="lead white-text">Ты сам выбираешь себе репетитора или стаешь им!</p>
+                    <a class="main-button icon-button" href="/login">Войти!</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /Home -->
+
+<!-- About -->
+<div id="about" class="section">
+
+    <!-- container -->
+    <div class="container">
+
+        <!-- row -->
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="section-header">
+                    <h2>Добро пожаловать на TUTORS.RU</h2>
+                    <p class="lead">Что мы предлагаем?</p>
+                </div>
+
+                <!-- feature -->
+                <div class="feature">
+                    <i class="feature-icon fa fa-flask"></i>
+                    <div class="feature-content">
+                        <h4>Офлайн и онлайн обучение</h4>
+                        <p>Ты сам выбираешь формат проведения занятий.</p>
+                    </div>
+                </div>
+                <!-- /feature -->
+
+                <!-- feature -->
+                <div class="feature">
+                    <i class="feature-icon fa fa-users"></i>
+                    <div class="feature-content">
+                        <h4>Большую команду репетиторов</h4>
+                        <p>Репетиторы разного опыта ищут себе учеников, чтобы поделиться с тобой знаниями.</p>
+                    </div>
+                </div>
+                <!-- /feature -->
+
+                <!-- feature -->
+                <div class="feature">
+                    <i class="feature-icon fa fa-comments"></i>
+                    <div class="feature-content">
+                        <h4>Вежливое общение</h4>
+                        <p>Мы следим, чтобы общение на нашем сайте было вежливым.</p>
+                    </div>
+                </div>
+                <!-- /feature -->
+
+            </div>
+
+            <div class="col-md-6">
+                <div class="about-img">
+                    <img src="../images/about.png" alt="">
+                </div>
+            </div>
+
+        </div>
+        <!-- row -->
+
+        <hr class="section-hr">
+
+    </div>
+    <!-- container -->
+</div>
+<!-- /About -->
+
+<!-- Tutors -->
+<div id="tutors-home" class="section" style="padding-top: 0">
+
+    <!-- container -->
+    <div class="container">
+
+        <!-- row -->
+        <div class="row">
+            <div class="section-header text-center">
+                <h2>Наши репетиторы</h2>
+                <p class="lead">Самые опытные репетиторы на нашем сайте:</p>
+            </div>
+        </div>
+        <!-- /row -->
+
+        <!-- tutors -->
+        <div id="tutors-wrapper">
+
+            <!-- row -->
+            <div class="row" id="tutors">
+
+            </div>
+            <!-- /row -->
+
+        </div>
+        <!-- /tutors -->
+
+        <div class="row">
+            <div class="center-btn">
+                <a class="main-button icon-button" href="/tutors">Показать больше</a>
+            </div>
+        </div>
+
+    </div>
+    <!-- container -->
+
+</div>
+<!-- /Tutors -->
+
+<!-- Call To Action -->
+<div id="cta" class="section">
+
+    <!-- Backgound Image -->
+    <div class="bg-image bg-parallax overlay" style="background-image:url(../images/cta1-background.jpg)"></div>
+    <!-- /Backgound Image -->
+
+    <!-- container -->
+    <div class="container">
+
+        <!-- row -->
+        <div class="row">
+
+            <div class="col-md-6">
+                <h2 class="white-text">Видишь в себе потенциал и хотел бы попробовать стать репетитором?</h2>
+                <p class="lead white-text">Нет проблем, друг! Регистрируйся, добавляй информацию о себе и жди, пока ученики напишут тебе!</p>
+                <a class="main-button icon-button" href="/registration">Стать репетитором!</a>
+            </div>
+
+        </div>
+        <!-- /row -->
+
+    </div>
+    <!-- /container -->
+
+</div>
+<!-- /Call To Action -->
+
+<!-- Why us -->
+<div id="why-us" class="section">
+
+    <!-- container -->
+    <div class="container">
+
+        <!-- row -->
+        <div class="row">
+            <div class="section-header text-center">
+                <h2>Почему мы?</h2>
+                <p class="lead">Потому что мы хорошие и пушистые, всех любим и обнимаем :)</p>
+                <p class="lead">Ну а если серьезно, то пока не придумали.</p>
+            </div>
+        </div>
+        <!-- /row -->
+
+        <hr class="section-hr">
+
+        <!-- row -->
+        <div class="row">
+
+            <div class="col-md-6">
+                <h3>Онлайн курсы</h3>
+                <p class="lead">Мы и наши репетиторы - авторы множества обучающих курсов на YouTube</p>
+                <p>Напрмер, справа ты можешь посмотреть ролик с нашего YouTube канала </p>
+            </div>
+
+            <div class="col-md-5 col-md-offset-1">
+                <iframe width="600" height="400"
+                        src="https://www.youtube.com/embed/sS1ySMWGofA"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+            </div>
+
+        </div>
+        <!-- /row -->
+
+    </div>
+    <!-- /container -->
+
+</div>
+<!-- /Why us -->
+
+<!-- Contact CTA -->
+<div id="contact-cta" class="section">
+
+    <!-- Backgound Image -->
+    <div class="bg-image bg-parallax overlay" style="background-image:url(../images/cta2-background.jpg)"></div>
+    <!-- Backgound Image -->
+
+    <!-- container -->
+    <div class="container">
+
+        <!-- row -->
+        <div class="row">
+
+            <div class="col-md-8 col-md-offset-2 text-center">
+                <h2 class="white-text">Напиши нам</h2>
+                <p class="lead white-text">Если у тебя есть какие-то вопросы или предложения - напиши нам и, вохможно, мы тебе ответим когда-нибудь!</p>
+                <a class="main-button icon-button" href="#">Написать</a>
+            </div>
+
+        </div>
+        <!-- /row -->
+
+    </div>
+    <!-- /container -->
+
+</div>
+<!-- /Contact CTA -->
+
+<div id="photo-modal" style="visibility: hidden">
+    <div onclick="Home.closePhoto()" style="z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: grey; opacity: 85%"></div>
+    <img id="photo" src="" style="z-index: 10001; position: fixed; top: 2.5%; right:0; left: 0; height: 95%; margin: 0 auto; background: white">
+</div>
+
+<script defer type="text/javascript" src="../scripts/home_script.js"></script>

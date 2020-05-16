@@ -1,14 +1,14 @@
-const Main = {
+(function($) {
+    "use strict"
 
-    body: document.getElementById('body'),
+    // Preloader
+    $(window).on('load', function() {
+        $("#preloader").delay(600).fadeOut();
+    });
 
-    init() {
-        this.body.style.background = 'url("../images/main-back2.jpg") no-repeat fixed';
-    },
+    // Mobile Toggle Btn
+    $('.navbar-toggle').on('click',function(){
+        $('#header').toggleClass('nav-collapse')
+    });
 
-    goToRegistration() {
-        window.location += 'registration';
-    }
-};
-
-Main.init();
+})(jQuery);

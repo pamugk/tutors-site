@@ -12,6 +12,8 @@ const TutorsList = {
     prevLi: document.getElementById('prev-li'),
     linkPrev: document.getElementById('link-prev'),
     linkNext: document.getElementById('link-next'),
+    photo: document.getElementById('photo'),
+    photoModal: document.getElementById('photo-modal'),
 
     pageNum: 1,
     pageSize: 5,
@@ -67,46 +69,34 @@ const TutorsList = {
                                 for (let ts of tutor.ts) {
                                     tsConcat += ts + '<br>';
                                 }
+                                const fullName = `${tutor.surname} ${tutor.name} ${tutor.patronymic}`;
+                                const href = `/tutor?id=${tutor.id}`;
                                 this.list.innerHTML += `
-                                    <div class="card-tutor" onclick="TutorsList.goToCard(${i-1})">
-                                        <div style="width: 180px; padding-right: 30px;">
-                                            <img src=${tutor.image} id="img-tutor" width="150" onload="TutorsList.stopSpinner(${i})"> 
-                                                <div class="loader-img" id="spinner${i}"></div> 
-                                            <img/>
-                                        </div>
-                                        <div class="data-tutor">
-                                            <div class="row-data">
-                                                <label class="label">Имя:</label>
-                                                <label class="label-value">${tutor.name}</label>
+                                     <div class="col-md-3 col-sm-6 col-xs-6" style="background: #DBDBDB; border-bottom: 1px solid grey">
+                                        <div class="tutor-card">
+                                            <div>
+                                                <a class="tutor-home-img" onclick="TutorsList.showPhoto('${tutor.image}')"  style="overflow: hidden; width: 255px;  height: 255px;">
+                                                    <img src="${tutor.image}" id="img-tutor" width="150" onload="TutorsList.stopSpinner(${i})" alt=""> 
+                                                        <div class="loader-img" id="spinner${i}"></div> 
+                                                    </img>
+                                                    <i class="course-link-icon fa fa-search-plus" style="border: 0"></i>
+                                                </a>
                                             </div>
-                                            <div class="row-data">
-                                                <label class="label">Фамилия:</label>
-                                                <label class="label-value">${tutor.surname}</label>
+                                            <a class="tutor-home-title" href="${href}">${fullName}</a>
+                                            <div class="tutor-home-details">
+                                                <span class="category">Стаж</span>
+                                                <span class="tutor-home-price exp">${this.experienceToStr(tutor.experience)}</span>
                                             </div>
-                                            <div class="row-data">
-                                                <label class="label">Отчество:</label>
-                                                <label class="label-value">${tutor.patronymic}</label>
+                                            <div class="tutor-home-details">
+                                                <span class="category">Оплата за час</span>
+                                                <span class="tutor-home-price price">${tutor.price} руб</span>
                                             </div>
-                                            <div class="row-data">
-                                                <label class="label">Стаж:</label>
-                                                <label class="label-value">${this.experienceToStr(tutor.experience)}</label>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="row-data" style="margin-left: 20px;">
-                                                <label class="label" style="height: 150px;">Предметы:</label>
-                                                <label class="label-value">${tsConcat}</label>
+                                            <div class="tutor-home-details">
+                                                ${tsConcat}
                                             </div>
                                         </div>
-                                        <div class="tutor-price">
-                                            <div class="card-header" style="background-color: transparent; color: darkred; padding-right: 0">
-                                                Оплата за 1 час
-                                            </div>
-                                            <div class="card-body" style="color: #1c7430; font-size: 30px; width: 100%">
-                                                ${tutor.price} руб.
-                                            </div>
-                                        </div>
-                                    </div>`;
+                                    </div>
+                                    `;
                             }
                             this.spinner.classList.remove('loader');
                         });
@@ -203,7 +193,17 @@ const TutorsList = {
     goToCard(tutorIdx) {
         global_tutor = this.tutors[tutorIdx];
         window.location.replace('tutor');
-    }
+    },
+
+    showPhoto(url) {
+        console.log('sdf');
+        this.photo.setAttribute('src', url);
+        this.photoModal.style.visibility='visible';
+    },
+
+    closePhoto() {
+        this.photoModal.style.visibility = 'hidden';
+    },
 };
 
 TutorsList.init();

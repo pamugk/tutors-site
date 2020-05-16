@@ -157,7 +157,7 @@ class Database {
             }
         }
         $result = $this::executePreparedQuery("", "
-                SELECT u.name, surname, patronymic, experience, price, about, avatar_id, array_to_json(array_agg(ts.id)), array_to_json(array_agg(ts.name))
+                SELECT u.id, u.name, surname, patronymic, experience, price, about, avatar_id, array_to_json(array_agg(ts.id)), array_to_json(array_agg(ts.name))
                 FROM data.users u
                     JOIN data.tutors t ON u.id = t.id
                     LEFT JOIN data.ref_users_teaching_subjects ruts ON u.id = ruts.user_id
@@ -176,8 +176,8 @@ class Database {
         if ($result) {
             $tutor = pg_fetch_array($result);
             while ($tutor) {
-                array_push($tutors, array('name' => $tutor[0], 'surname' => $tutor[1], 'patronymic' => $tutor[2],
-                    'experience' => $tutor[3], 'price' => $tutor[4], 'about' => $tutor[5], 'image' => $tutor[6] == null ? "/images/avatar.png" : "/backend/images.php?id=".$tutor[6], 'ts' => json_decode($tutor[8])));
+                array_push($tutors, array('id' => $tutor[0], 'name' => $tutor[1], 'surname' => $tutor[2], 'patronymic' => $tutor[3],
+                    'experience' => $tutor[4], 'price' => $tutor[5], 'about' => $tutor[6], 'image' => $tutor[7] == null ? "/images/avatar.png" : "/backend/images.php?id=".$tutor[7], 'ts' => json_decode($tutor[9])));
                 $tutor = pg_fetch_array($result);
             }
             $this->freeResult($result);

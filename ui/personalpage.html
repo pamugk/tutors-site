@@ -1,99 +1,124 @@
-{if $user == null}
-<div class="alert alert-danger text-center mx-auto my-auto">
-    Только авторизованные пользователи имеют доступ к личному кабинету.<br/>
-    Если у вас уже есть аккаунт - авторизуйтесь.
-</div>
-{else}
-<div class="card-body container col" style="background-color: #f5f5f5; opacity: 85%; height: 99%; align-content: center">
-    <div class="alert alert-warning mx-auto my-2">
-        Все изменения будут действительны только после нажатия кнопки "Сохранить".<br/>
-        Да, и статус репетитора тоже.<br/>
-        Да, специфичные для репетиторов опции доступны только тем, у кого зафиксирован статус "Репетитор", не надо писать в техподдержку.
+<!-- personal page -->
+<div class="section" style="padding-top: 150px;">
+    <!-- Backgound Image -->
+    <div class="bg-image bg-parallax overlay" style="background-image:url(../images/personal-background.jpg)"></div>
+    <!-- /Backgound Image -->
+
+    <!-- user data -->
+    {if $user == null}
+    <div class="alert alert-danger text-center mx-auto my-auto">
+        Только авторизованные пользователи имеют доступ к личному кабинету.<br/>
+        Если у вас уже есть аккаунт - авторизуйтесь.
     </div>
-    <div class="container row mx-auto  my-2">
-        <div class="col-3">
-            <img id="avatarImg" src="{$avatar}" class="img-thumbnail">
-            <input accept="image/jpg, image/png, image/jpeg" class="form-control" form="personal-form" name="avatar" type="file" onchange="Personal.updImage(this)">
-        </div>
-        <div class="container col">
-            <form id="personal-form" class="col" enctype="multipart/form-data" method="POST">
-                <h3 class="card-header">Персональные данные</h3>
-                <div id="spinner1" role="status"></div>
-                <div id="error" class="alert alert-danger" style="display: none"></div>
-                <div class="form-group">
-                    <label for="name-input">Имя:</label>
-                    <input type="text" name="name" class="form-control" id="name-input" placeholder="Имя" value="{$user.name}">
-                </div>
-                <div class="form-group">
-                    <label for="surname-input">Фамилия:</label>
-                    <input type="text" name="surname" class="form-control" id="surname-input" placeholder="Фамилия" value="{$user.surname}">
-                </div>
-                <div class="form-group">
-                    <label for="patronymic-input">Отчество:</label>
-                    <input type="text" name="patronymic" class="form-control" id="patronymic-input" placeholder="Отчество" value="{$user.patronymic}">
-                </div>
-                <div class="form-check">
-                    <input type="checkbox" name="isTutor" class="form-check-input" id="type-input" {if $user.isTutor}checked{/if}>
-                    <label class="form-check-label" for="type-input">Я репетитор</label>
-                </div>
-                <div class="form-group">
-                    <label for="login-input">Логин:</label>
-                    <input type="text" name="login" class="form-control" id="login-input" placeholder="Логин" value="{$user.login}">
-                </div>
-                <div class="form-row">
-                    <div class="form-check my-auto">
-                        <input type="checkbox" name="changePassword" class="form-check-input" id="change-password-input" onchange=Personal.checked(this)>
-                        <label class="form-check-label" for="change-password-input">Поменять пароль</label>
-                    </div>
-                    <div class="form-group col">
-                        <label for="password-input">Пароль:</label>
-                        <input type="password" name="password" class="form-control" id="password-input" placeholder="******" disabled>
-                    </div>
-                    <div class="form-group col">
-                        <label for="password2-input">Повтор пароля:</label>
-                        <input type="password" name="password2" class="form-control" id="password2-input" placeholder="******" disabled>
-                    </div>
-                </div>
-                <input name="submit" type="submit" class="btn btn-primary" value="Сохранить"/>
-            </form>
-            {if $user.isTutor}
-            <form id="tutor-form" class="col my-2">
-                <h3 class="card-header">Данные репетитора</h3>
-                <div id="spinner2" role="status"></div>
-                <div id="error2" class="alert alert-danger" style="display: none"></div>
-                {if $subjectsOfTutor|@count == 0}
-                    <div class="alert alert-warning text-center mx-auto my-auto">
-                        Увы, но пока предметов нет.<br/>
-                        Если есть, чего предложить - обращайтесь к администрации сайта.
-                    </div>
-                    {else}
+    {else}
+    <div class="card-body col mx-auto" style=" align-content: center; width: 80%; height: 100%; padding: 0; vertical-align: middle">
+        <div class="container row mx-auto my-2" style="background-color: lightgray; padding: 10px 10px 20px;opacity: 95%;">
+            <div class="alert alert-warning" style="width: 100%">
+                Все изменения будут действительны только после нажатия кнопки "Сохранить".<br/>
+                Да, и статус репетитора тоже.<br/>
+                Да, специфичные для репетиторов опции доступны только тем, у кого зафиксирован статус "Репетитор", не надо писать в техподдержку.
+            </div>
+            <div class="col-3">
+                <img id="avatarImg" src="{$avatar}" class="img-thumbnail">
+                <input accept="image/jpg, image/png, image/jpeg" class="form-control" form="personal-form" name="avatar" type="file" onchange="Personal.updImage(this)">
+            </div>
+            <div class="container col">
+                <form id="personal-form" class="col" enctype="multipart/form-data" method="POST">
+                    <h3 class="card-header">Персональные данные</h3>
+                    <div id="spinner1" role="status"></div>
+                    <div id="error" class="alert alert-danger" style="display: none"></div>
                     <div class="form-group">
-                        <label for="about-input">Преподаваемые предметы:</label>
-                        <select multiple class="form-control" name="subjects[]">
-                            {foreach from=$subjectsOfTutor item=subject}
-                                <option {if $subject.isTaughtBy}selected{/if} value="{$subject.id}">{$subject.name}</option>
-                            {/foreach} 
-                        </select>
+                        <label for="name-input">Имя:</label>
+                        <input type="text" name="name" class="form-control" id="name-input" placeholder="Имя" value="{$user.name}">
                     </div>
-                {/if}
-                <div class="form-group">
-                    <label for="about-input">О себе:</label>
-                    <textarea name="about" class="form-control" id="about-input" placeholder="О себе">{$tutorInfo.about}</textarea>
-                </div>
-                <div class="form-group">
-                    <label for="experience-input">Стаж</label>
-                    <input type="number" name="experience" class="form-control" id="experience-input" min="0" max="120" value="{$tutorInfo.experience}">
-                </div>
-                <div class="form-group">
-                    <label for="price-input">Оплата за 1 час</label>
-                    <input type="number" name="price" class="form-control" id="price-input" min="0" value="{$tutorInfo.price}">
-                </div>
-                <input type="submit" class="btn btn-primary" value="Сохранить"/>
-            </form>
-            <script defer src="/scripts/tutor_script.js"></script>
-            {/if}
+                    <div class="form-group">
+                        <label for="surname-input">Фамилия:</label>
+                        <input type="text" name="surname" class="form-control" id="surname-input" placeholder="Фамилия" value="{$user.surname}">
+                    </div>
+                    <div class="form-group">
+                        <label for="patronymic-input">Отчество:</label>
+                        <input type="text" name="patronymic" class="form-control" id="patronymic-input" placeholder="Отчество" value="{$user.patronymic}">
+                    </div>
+                    <div class="form-check" style="padding-left: 0; margin: 10px 0">
+                        <input type="checkbox" name="isTutor" class="form-check-input" id="type-input" {if $user.isTutor}checked{/if}>
+                        <label class="form-check-label" for="type-input" style="padding-left: 15px;">Я репетитор</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-input">Логин:</label>
+                        <input type="text" name="login" class="form-control" id="login-input" placeholder="Логин" value="{$user.login}">
+                    </div>
+                    <div class="form-check my-auto" style="padding-left: 0; margin: 10px 0">
+                        <input type="checkbox" name="changePassword" class="form-check-input" id="change-password-input" onchange=Personal.checked(this)>
+                        <label class="form-check-label" for="change-password-input" style="padding-left: 15px;">Поменять пароль</label>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="password-input">Пароль:</label>
+                            <input type="password" name="password" class="form-control" id="password-input" placeholder="******" disabled>
+                        </div>
+                        <div class="form-group col">
+                            <label for="password2-input">Повтор пароля:</label>
+                            <input type="password" name="password2" class="form-control" id="password2-input" placeholder="******" disabled>
+                        </div>
+                    </div>
+                    <input name="submit" type="submit" class="btn btn-primary main-button btn-login" value="Сохранить"/>
+                </form>
+            </div>
+        </div>
+    </div>
+    {/if}
+    <!-- /user data -->
+</div>
+
+<!-- tutor data -->
+{if $user != null and $user.isTutor}
+<div class="section">
+    <!-- Backgound Image -->
+    <div class="bg-image bg-parallax overlay" style="background-image:url(../images/cta2-background.jpg)"></div>
+    <!-- /Backgound Image -->
+    <div class="card-body col mx-auto" style=" align-content: center; width: 80%; height: 100%; padding: 0; vertical-align: middle">
+        <div class="container row mx-auto my-2" style="background-color: lightgray; padding: 10px; opacity: 95%;">
+            <div class="container col">
+                <form id="tutor-form" class="col my-2">
+                    <h3 class="card-header">Данные репетитора</h3>
+                    <div id="spinner2" role="status"></div>
+                    <div id="error2" class="alert alert-danger" style="display: none"></div>
+                    {if $subjectsOfTutor|@count == 0}
+                        <div class="alert alert-warning text-center mx-auto my-auto">
+                            Увы, но пока предметов нет.<br/>
+                            Если есть, чего предложить - обращайтесь к администрации сайта.
+                        </div>
+                        {else}
+                        <div class="form-group">
+                            <label for="about-input">Преподаваемые предметы:</label>
+                            <select multiple class="form-control" name="subjects[]">
+                                {foreach from=$subjectsOfTutor item=subject}
+                                    <option {if $subject.isTaughtBy}selected{/if} value="{$subject.id}">{$subject.name}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    {/if}
+                    <div class="form-group">
+                        <label for="about-input">О себе:</label>
+                        <textarea name="about" class="form-control" id="about-input" placeholder="О себе">{$tutorInfo.about}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="experience-input">Стаж</label>
+                        <input type="number" name="experience" class="form-control" id="experience-input" min="0" max="120" value="{$tutorInfo.experience}">
+                    </div>
+                    <div class="form-group">
+                        <label for="price-input">Оплата за 1 час</label>
+                        <input type="number" name="price" class="form-control" id="price-input" min="0" value="{$tutorInfo.price}">
+                    </div>
+                    <input type="submit" class="btn btn-primary main-button btn-login" value="Сохранить"/>
+                </form>
+                <script defer src="/scripts/tutor_script.js"></script>
+            </div>
         </div>
     </div>
 </div>
-<script defer src="/scripts/personal_script.js"></script>
 {/if}
+<!-- /tutor data -->
+
+<script defer src="/scripts/personal_script.js"></script>
+<!-- /personal page -->

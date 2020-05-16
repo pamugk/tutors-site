@@ -47,6 +47,6 @@ switch ($page) {
     }
 }
 
-$template = UI::constructPage(UI::getTitle($page), UI::getHeader(), UI::getSidebar(), UI::getContent($page), UI::getFooter());
+$template = UI::constructPage($page, UI::getTitle($page), UI::getHeader(), UI::getSidebar(), UI::getContent($page), UI::getFooter());
 print(UI::compilePage($template, $bind));
 ?>
