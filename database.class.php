@@ -127,7 +127,7 @@ class Database {
     }
 
     public function getCredentials($login) {
-        return $this->executePreparedQuery("", 'SELECT id, hash FROM "data".users WHERE login=$1', array($login));
+        return $this->executePreparedQuery("", 'SELECT id, hash FROM "data".users WHERE login=$1;', array($login));
     }
 
     public function getListTutors($pageNum, $pageSize, $search, $teachingSubject, $order) {
@@ -176,8 +176,8 @@ class Database {
         if ($result) {
             $tutor = pg_fetch_array($result);
             while ($tutor) {
-                array_push($tutors, array('id' => $tutor[0], 'name' => $tutor[1], 'surname' => $tutor[2], 'patronymic' => $tutor[3],
-                    'experience' => $tutor[4], 'price' => $tutor[5], 'about' => $tutor[6], 'image' => $tutor[7] == null ? "/images/avatar.png" : "/backend/images.php?id=".$tutor[7], 'ts' => json_decode($tutor[9])));
+                array_push($tutors, array('id' => $tutor[0], 'name' => htmlentities($tutor[1]), 'surname' => htmlentities($tutor[2]), 'patronymic' => htmlentities($tutor[3]),
+                    'experience' => $tutor[4], 'price' => $tutor[5], 'about' => htmlentities($tutor[6]), 'image' => $tutor[7] == null ? "/images/avatar.png" : "/backend/images.php?id=".$tutor[7], 'ts' => json_decode($tutor[9])));
                 $tutor = pg_fetch_array($result);
             }
             $this->freeResult($result);
@@ -201,6 +201,30 @@ class Database {
         array($tutorId)));
     }
 
+    public function getFullTutorInfo($tutorId) {
+        $result = $this->executePreparedQuery('', 
+            'WITH usr AS (SELECT * FROM "data".users WHERE id=$1) 
+            SELECT usr.id, login, usr.name, surname, patronymic, avatar_id, experience, about, price, array_to_json(array_agg(ts.name))
+            FROM usr
+                JOIN "data".tutors ON usr.id = tutors.id 
+                LEFT JOIN "data".ref_users_teaching_subjects ON usr.id = user_id 
+                LEFT JOIN "data".teaching_subjects ts ON teaching_subject_id = ts.id
+            GROUP BY usr.id, login, usr.name, surname, patronymic, avatar_id, experience, about, price;', array($tutorId));
+        $tutorInfo = array('tutor' => null, 'subjects' => array());
+        if ($result) {
+            $row = pg_fetch_array($result);
+            $tutorInfo['tutor'] = array(
+                'id' => $row[0], 'login' => $row[1], 'name' => $row[2], 'surname' => $row[3], 
+                'patronymic' => pg_field_is_null($result, 0, 4) == 1 ? null : $row[4],
+                'avatarId' =>  pg_field_is_null($result, 0, 5) == 1 ? null : $row[5],
+                'experience' => $row[6], 'about' => $row[7], 'price' => $row[8]);
+            if (pg_field_is_null($result, 0, 9) == 0)
+                $tutorInfo['subjects'] = json_decode($row[9]);
+            $this->freeResult($result);
+        }
+        return $tutorInfo;
+    }
+
     public function getTutorInfo($tutorId) {
         $result = $this->executePreparedQuery('', 'SELECT about, experience, price FROM "data".tutors WHERE id=$1', array($tutorId));
         if ($result) {
@@ -214,12 +238,14 @@ class Database {
 
     public function getUser($userId) {
         $result = $this->executePreparedQuery("",
-        'SELECT login, name, surname, patronymic, is_tutor, avatar_id FROM "data".users WHERE id = $1;', array($userId));
+        'SELECT id, login, name, surname, patronymic, is_tutor, avatar_id FROM "data".users WHERE id = $1;', array($userId));
         $user = null;
         if ($result) {
             $row = pg_fetch_array($result);
-            $user = array("login" => $row[0], "name" => $row[1], "surname" => $row[2], "patronymic" => $row[3], "isTutor" => $row[4] == 't',
-            "avatarId" => pg_field_is_null($result, 0, 5) == 1 ? null : $row[5]);
+            $user = array(
+                "id" => $row[0], "login" => $row[1], "name" => $row[2], "surname" => $row[3], 
+                "patronymic" => pg_field_is_null($result, 0, 4) == 1 ? null : $row[4], "isTutor" => $row[5] == 't',
+                "avatarId" => pg_field_is_null($result, 0, 6) == 1 ? null : $row[6]);
             $this->freeResult($result);
         }
         return $user;
@@ -335,7 +361,6 @@ class Database {
         'UPDATE "data".users SET "login"=$2, hash=$3 "name"=$4, surname=$5, patronymic=$6, is_tutor=$7 WHERE id=$1;',
         $userInfoWPassword);
     }
-
 
     public function getAllTeachingSubjects() {
         $result = $this::executeQuery('SELECT id, name FROM data.teaching_subjects');

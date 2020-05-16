@@ -6,7 +6,7 @@ include_once "ui.class.php";
 session_set_save_handler(PgSessionHandler::getInstance(), false);
 
 Database::reinitializeConnection();
-$result = Database::getInstance()->getPathPage($_SERVER["REQUEST_URI"]);
+$result = Database::getInstance()->getPathPage(explode('?', $_SERVER['REQUEST_URI'], 2)[0]);
 if (!$result)
     $page = "404";
 else {
@@ -42,11 +42,16 @@ switch ($page) {
         }
         break;
     }
-    case 'tutors' : {
-
+    case 'tutor' : {
+        if (key_exists('id', $_GET)) {
+            $fullTutorInfo = Database::getInstance()->getFullTutorInfo($_GET['id']);
+            $bind['tutor'] = $fullTutorInfo['tutor'];
+            if ($bind['tutor'] != null)
+                $bind['tutorAvatar'] = $bind['tutor']['avatarId'] == null ? "/images/avatar.png" : "/backend/images.php?id=".$bind['tutor']['avatarId'];
+            $bind['subjects'] = $fullTutorInfo['subjects'];
+        }
     }
 }
-
 $template = UI::constructPage($page, UI::getTitle($page), UI::getHeader(), UI::getSidebar(), UI::getContent($page), UI::getFooter());
 print(UI::compilePage($template, $bind));
 ?>

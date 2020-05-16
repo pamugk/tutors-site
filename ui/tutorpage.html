@@ -1,42 +1,63 @@
-<div class="tutor-page">
-    <div class="card-tutor">
-        <div style="width: 180px; padding-right: 30px;">
-            <img id="img-tutor" width="150" onload="TutorsList.stopSpinner(${i})">
-            <div class="loader-img" id="spinner"></div>
-            <img/>
-        </div>
-        <div class="data-tutor">
-            <div class="row-data">
-                <label class="label">Имя:</label>
-                <label class="label-value">124</label>
-            </div>
-            <div class="row-data">
-                <label class="label">Фамилия:</label>
-                <label class="label-value">12321</label>
-            </div>
-            <div class="row-data">
-                <label class="label">Отчество:</label>
-                <label class="label-value">12312</label>
-            </div>
-            <div class="row-data">
-                <label class="label">Стаж:</label>
-                <label class="label-value">123123</label>
-            </div>
-        </div>
-        <div>
-            <div class="row-data" style="margin-left: 20px;">
-                <label class="label" style="height: 150px;">Предметы:</label>
-                <label class="label-value">12312</label>
-            </div>
-        </div>
-        <div class="tutor-price">
-            <div class="card-header" style="background-color: transparent; color: darkred; padding-right: 0">
-                Оплата за 1 час
-            </div>
-            <div class="card-body" style="color: #1c7430; font-size: 30px; width: 100%">
-                121434 руб.
+<!-- tutor page -->
+{if $tutor == null}
+    <div class="section" style="height: 100vh;">
+        <!-- Backgound Image -->
+        <div class="bg-image bg-parallax overlay" style="background-image:url(../images/personal-background.jpg)"></div>
+        <!-- /Backgound Image -->
+        <div class="row" style="height: 100%; display: flex; align-items: center">
+            <div class="alert alert-warning text-center mx-auto my-auto">
+                По некоторым причинам, известным одному Богу / Аллаху / Яхве / Ктулху / Вечному Синему Небу Тенгри, запрашиваемого вами репетитора нет в нашей базе данных.<br/>
+                Может, вам стоит задуматься над тем, что нехорошо искать Того-Кого-Нет-В-Базе-Данных?
             </div>
         </div>
     </div>
-    <script defer src="/scripts/tutor_card_script.js"></script>
-</div>
+{elseif $tutor.id == $user.id}
+
+{else}
+    <!-- tutor data -->
+    <div class="section" style="padding-top: 150px;">
+        <!-- Backgound Image -->
+        <div class="bg-image bg-parallax overlay" style="background-image:url(../images/cta2-background.jpg)"></div>
+        <!-- /Backgound Image -->
+        <div class="card-body col mx-auto" style=" align-content: center; width: 80%; height: 100%; padding: 0; vertical-align: middle">
+            <div class="container row mx-auto my-2" style="background-color: white; padding: 10px 10px 20px;opacity: 95%;">
+                <div class="col">
+                    <h4 class="font-weight-bold">"О себе" от репетитора</h4>
+                    <span>
+                        {if $tutor.about == ''}
+                            На данный момент репетитор ничего о себе не рассказал :(.
+                        {else}
+                            {$tutor.about|escape|regex_replace:"/[\n]/":"<br/>"}
+                        {/if}
+                    </span>
+                </div>
+                <div class="col-4">
+                    <h3>{$tutor.surname|escape} {$tutor.name|escape}{if $tutor.patronymic != null} {$tutor.patronymic|escape}{/if}</h3>
+                    <img src="{$tutorAvatar}" class="img-thumbnail">
+                    <h3>Преподаваемые предметы:</h3>
+                    {if $subjects|@count == 0}
+                        <span class="alert alert-warning text-center mx-auto my-auto">
+                            На данный момент репетитор ничего не преподаёт.
+                        </span>
+                    {else}
+                        <ul class="container">
+                            {foreach from=$subjects item=subject}
+                                <li class="ml-1">{$subject|escape}</li>
+                            {/foreach}
+                        </ul>
+                    {/if}
+                </div>
+            </div>
+            <div class="row">
+                {if $user == null}
+                    <div class="alert alert-info text-center mx-auto my-auto">
+                        Только осуществившие вход пользователи могут отправлять сообщения.
+                    </div>
+                {else}
+                {/if}
+            </div>
+        </div>
+    </div>
+    <!-- /tutor data -->
+{/if}
+<!-- /tutor page -->

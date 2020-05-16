@@ -16,7 +16,7 @@ const TutorsList = {
     photoModal: document.getElementById('photo-modal'),
 
     pageNum: 1,
-    pageSize: 5,
+    pageSize: 4,
     countPages: 1,
     tutors: null,
 
@@ -60,7 +60,6 @@ const TutorsList = {
                     response.json()
                         .then(tutors => {
                             this.list.innerHTML = '';
-                            console.log(tutors);
                             let i = 0;
                             this.tutors = tutors;
                             for (let tutor of tutors) {

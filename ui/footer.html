@@ -22,8 +22,10 @@
                 <ul class="footer-nav">
                     <li><a href="#">Наверх</a></li>
                     <li><a href="/tutors">Список репетиторов</a></li>
-                    <li><a href="/login">Войти</a></li>
-                    <li><a href="/registration">Зарегистрироваться</a></li>
+                    {if $user == null}
+                        <li><a href="/login">Войти</a></li>
+                        <li><a href="/registration">Зарегистрироваться</a></li>
+                    {/if}
                     <li><a href="#">Написать нам</a></li>
                 </ul>
             </div>
