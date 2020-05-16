@@ -60,7 +60,7 @@ class UI {
                     <link rel=\"stylesheet\" href=\"styles/font-awesome.min.css\">
                 
                     <!-- Custom stlylesheet -->
-                    <link type=\"text/css\" rel=\"stylesheet\" href=\"styles/style-home.css\"/>            
+                    <link type=\"text/css\" rel=\"stylesheet\" href=\"styles/style-home.css\"/>   
                 </head>
                 <body id='body'>
                     $header

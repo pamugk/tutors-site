@@ -256,7 +256,7 @@ class Database {
         $image = false;
         if ($result) {
             $image = pg_unescape_bytea(pg_fetch_result($result, 'content'));
-            $this::freeResult($result);
+            $this->freeResult($result);
         }
         return $image;
     }
@@ -270,8 +270,31 @@ class Database {
     public function loginExists($login) {
         $result = $this->executePreparedQuery("", 'SELECT EXISTS (SELECT * FROM "data".users WHERE login=$1);', array($login));
         $exists = pg_fetch_array($result)[0] == 't';
-        $this::freeResult($result);
+        $this->freeResult($result);
         return $exists;
+    }
+
+    public function messagesFetch($from, $to, $limit, $offset) {
+        $result = $this->executePreparedQuery("", 
+            'SELECT id, "from", "to", text FROM "data".messages WHERE "from" = $1 AND "to" = $2 ORDER BY created LIMIT $3 OFFSET $4;', 
+            array($from, $to, $limit, $offset));
+        $messages = false;
+        if ($result !== FALSE) {
+            $messages = array();
+            while ($row = pg_fetch_array($result))
+                array_push($messages, array('id' => $row[0], 'from' => $row[1], 'to' => $row[2], 'text' => $row[3]));
+            $this->freeResult($result);
+        }
+        return $messages;
+    }
+
+    public function messageSend($from, $to, $message) {
+        $result = $this->executePreparedQuery("", 
+            'INSERT INTO "data".messages("from", "to", "text") VALUES($1,$2,$3) RETURNING id;', 
+            array($from, $to, $message));
+        $id = $result ? pg_fetch_result($result, 0, 0) : false;
+        $this->freeResult($result);
+        return $id;
     }
 
     public function registerUser($userInfo) {

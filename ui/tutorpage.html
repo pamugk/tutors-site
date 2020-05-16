@@ -11,7 +11,7 @@
             </div>
         </div>
     </div>
-{elseif $tutor.id == $user.id}
+{elseif $user != null && $tutor.id == $user.id}
 
 {else}
     <!-- tutor data -->
@@ -48,12 +48,30 @@
                     {/if}
                 </div>
             </div>
-            <div class="row">
+            <div class="col container mx-auto">
                 {if $user == null}
                     <div class="alert alert-info text-center mx-auto my-auto">
                         Только осуществившие вход пользователи могут отправлять сообщения.
                     </div>
                 {else}
+                    <div class="col messenger p-3">
+                        <h3>Сообщения</h3>
+                        <div id="spinner"></div>
+                        <ul id="messages-list" class="d-flex flex-column message-list"></ul>
+                        <form class="m2" id="messaging-form">
+                            <div class="form-row mx-auto align-items-end">
+                                <div class=" col-auto flex-grow-1">
+                                    <textarea id="message-input" name="message" class="form-control" id="about-input" placeholder="Написать сообщение..."></textarea>
+                                </div>
+                                <div class="col-auto my-1">
+                                    <button class="btn btn-default main-button btn-login col-auto" onclick="Messages.send();"><i class="fa fa-comment"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <link rel="stylesheet" href="styles/style-messages.css">
+                    <script>to={$tutor.id};</script>
+                    <script defer src="/scripts/messages_script.js"></script>
                 {/if}
             </div>
         </div>

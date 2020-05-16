@@ -44,5 +44,5 @@ else {
     Database::getInstance()->freeResult($result);
 }
 http_response_code($response_code);
-echo json_encode($response)
+echo json_encode($response);
 ?>
