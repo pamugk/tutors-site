@@ -33,7 +33,6 @@ const Messages = {
                         })
                     );
                 }
-                this.message.value = '';
                 this.spinner.classList.remove('loader');
                 this.messages.removeAttribute('hidden');
             })
@@ -51,8 +50,10 @@ const Messages = {
                 body: new FormData(this.formElement)
             })
             .then(response => {
-                if (response.status === 201)
+                if (response.status === 201) {
                     this.addMessage(messageText, true);
+                    this.message.value = '';
+                }
                 else response.json().then(data => console.log(data.error));
             })
             .catch(error =>  { 
