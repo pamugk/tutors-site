@@ -1,0 +1,56 @@
+{if $user == null}
+<div class="section" style="height: 100vh;">
+    <!-- Backgound Image -->
+    <div class="bg-image bg-parallax overlay" style="background-image:url(../images/personal-background.jpg)"></div>
+    <!-- /Backgound Image -->
+    <div class="row" style="height: 100%; display: flex; align-items: center">
+        <div class="alert alert-danger text-center mx-auto my-auto">
+            Только зарегистрированные пользователи могут осуществлять вход
+        </div>
+    </div>
+</div>
+{else}
+<!-- Backgound Image -->
+<div class="bg-image bg-parallax overlay" style="background-image:url(../images/personal-background.jpg)"></div>
+<!-- /Backgound Image -->
+<div class="section row mx-auto p-8" style="height: 100vh;">
+    <div class="col-3 d-flex">
+        {if $contacts|@count == 0}
+            <div class="alert alert-warning text-center mx-auto my-auto">
+                У вас пока нет сообщений
+            </div>
+        {else}
+            <ul class="contacts d-flex flex-grow-1 p-3">
+                {foreach from=$contacts item=contact}
+                <li>
+                    <button onclick="to={$contact.id};">
+                        <div class="d-flex p-2">
+                            <img src="/backend/images.php?id={$contact.avatarId}" class="md-avatar rounded-circle col-3">
+                            <h2>{$contact.surname|escape} {$contact.name|escape}{if $contact.patronymic != null} {$contact.patronymic|escape}{/if}</h2>
+                        </div>
+                    </button>
+                </li>
+                {/foreach}
+            </ul>
+            <script>to={$contacts[0].id};</script>
+        {/if}
+    </div>
+    <div class="col d-flex flex-column messenger p-3 mr-3">
+        <h3>Сообщения</h3>
+        <div id="spinner"></div>
+        <ul id="messages-list" class="d-flex flex-grow-1 flex-column message-list m-3" style="max-height: unset;"></ul>
+        <form class="m2" id="messaging-form">
+            <div class="form-row mx-auto align-items-end">
+                <div class=" col-auto flex-grow-1">
+                    <textarea id="message-input" name="message" class="form-control" id="about-input" placeholder="Написать сообщение..."></textarea>
+                </div>
+                <div class="col-auto my-1">
+                    <button class="btn btn-default main-button btn-login col-auto" onclick="Messages.send();"><i class="fa fa-comment"></i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <link rel="stylesheet" href="styles/style-messages.css">
+    <script defer src="/scripts/messages_script.js"></script>
+</div>
+{/if}

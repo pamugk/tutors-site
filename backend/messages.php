@@ -14,10 +14,8 @@ elseif ($_SERVER['REQUEST_METHOD'] == 'GET') {
         $response = array('error' => "Не указан корреспондент");
     }
     else {
-        $limit = key_exists('l', $_GET) ? (int)$_GET['l'] : 20;
-        $offset = key_exists('o', $_GET) ? (int)$_GET['o'] : 0;
         Database::reinitializeConnection();
-        $messages = Database::getInstance()->messagesFetch($_SESSION['ID'], $_GET['i'], $limit, $offset);
+        $messages = Database::getInstance()->messagesFetch($_SESSION['ID'], (int)$_GET['i']);
         if ($messages == FALSE) {
             $response_code = 500;
             $response = array('error' => "При получении что-то пошло не так");

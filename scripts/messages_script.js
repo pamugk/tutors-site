@@ -3,7 +3,6 @@ const Messages = {
     formElement: document.getElementById('messaging-form'),
     message: document.getElementById('message-input'), 
     messages: document.getElementById('messages-list'),
-    offset: 0,
     
     addMessage(message, local) {
         var li = document.createElement("li");
@@ -20,12 +19,12 @@ const Messages = {
         };
         this.fetch(to);
     },
-    async fetch(){ 
+    async fetch(to){ 
         this.messages.setAttribute('hidden', '');
         this.spinner.classList.add('loader');
         while (this.messages.firstChild)
             this.messages.removeChild(myNode.lastChild);
-        fetch(`/backend/messages.php?i=${to}&l=10&o=${this.offset}`)
+        fetch(`/backend/messages.php?i=${to}`)
             .then(response => {
                 if (response.status == 200) {
                     response.json().then(data => 
@@ -34,6 +33,7 @@ const Messages = {
                         })
                     );
                 }
+                this.message.value = '';
                 this.spinner.classList.remove('loader');
                 this.messages.removeAttribute('hidden');
             })

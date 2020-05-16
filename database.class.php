@@ -274,10 +274,28 @@ class Database {
         return $exists;
     }
 
-    public function messagesFetch($from, $to, $limit, $offset) {
+    public function fetchContacts($usrId) {
         $result = $this->executePreparedQuery("", 
-            'SELECT id, "from", "to", text FROM "data".messages WHERE "from" = $1 AND "to" = $2 ORDER BY created LIMIT $3 OFFSET $4;', 
-            array($from, $to, $limit, $offset));
+            'WITH contacts AS (SELECT "from", "to" FROM "data".messages WHERE "from" = $1 OR "to" = $1) 
+            SELECT id, login, name, surname, patronymic, avatar_id 
+            FROM "data".users, contacts 
+            WHERE id !=$1 AND (id = "from" OR id = "from");', 
+            array($usrId));
+        $contacts = false;
+        if ($result !== FALSE) {
+            $contacts = array();
+            while ($row = pg_fetch_array($result))
+                array_push($contacts, array('id' => $row[0], 'login' => $row[1], 'name' => $row[2], 'surname' => $row[3], 
+                    'patronymic' => $row[4], 'avatarId' => $row[5]));
+            $this->freeResult($result);
+        }
+        return $contacts;
+    }
+
+    public function messagesFetch($from, $to) {
+        $result = $this->executePreparedQuery("", 
+            'SELECT id, "from", "to", text FROM "data".messages WHERE "from" = $1 AND "to" = $2 OR "from" = $2 AND "to" = $1;', 
+            array($from, $to));
         $messages = false;
         if ($result !== FALSE) {
             $messages = array();

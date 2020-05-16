@@ -27,6 +27,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/tutors">Список репетиторов</a>
                 </li>
+                {if $user != null}
+                <li class="nav-item">
+                    <a class="nav-link" href="/messages">Сообщения</a>
+                </li>
+                {/if}
             </ul>
             <ul class="main-menu nav navbar-nav navbar-right" style="display: flex; flex-direction: row; height: 83px; align-items: center">
                 {if $user == null}

@@ -42,6 +42,9 @@ switch ($page) {
         }
         break;
     }
+    case 'messages': {
+        $bind['contacts'] = Database::getInstance()->fetchContacts($_SESSION['ID']);
+    }
     case 'tutor' : {
         if (key_exists('id', $_GET)) {
             $fullTutorInfo = Database::getInstance()->getFullTutorInfo($_GET['id']);

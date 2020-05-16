@@ -11,8 +11,17 @@
             </div>
         </div>
     </div>
-{elseif $user != null && $tutor.id == $user.id}
-
+{elseif $user!= null && $user.id == $tutor.id}  
+<div class="section" style="height: 100vh;">
+    <!-- Backgound Image -->
+    <div class="bg-image bg-parallax overlay" style="background-image:url(../images/personal-background.jpg)"></div>
+    <!-- /Backgound Image -->
+    <div class="row" style="height: 100%; display: flex; align-items: center">
+        <div class="alert alert-warning text-center mx-auto my-auto">
+            Зачем вам смотреть на информацию о самом себе?
+        </div>
+    </div>
+</div>
 {else}
     <!-- tutor data -->
     <div class="section" style="padding-top: 150px;">
@@ -46,6 +55,8 @@
                             {/foreach}
                         </ul>
                     {/if}
+                    <span><h3>Стаж: </h3>{$tutor.experience}</span><br/>
+                    <span><h3>Цена за час:</h3> {$tutor.price} р.</span><br/>
                 </div>
             </div>
             <div class="col container mx-auto">

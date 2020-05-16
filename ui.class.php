@@ -10,6 +10,10 @@ class UI {
         return file_get_contents(PATH."/ui/mainpage.html");
     }
 
+    private static function getMessagesPage() {
+        return file_get_contents(PATH."/ui/messagespage.html");
+    }
+
     private static function getNotfoundPage() {
         return file_get_contents(PATH."/ui/notfoundpage.html");
     }
@@ -90,6 +94,8 @@ class UI {
                 return self::getLoginPage();
             case "main":
                 return self::getMainPage();
+            case "messages":
+                return self::getMessagesPage();
             case "personal":
                 return self::getPersonalPage();
             case "registration":
@@ -123,6 +129,8 @@ class UI {
                 return 'Вход';
             case "main":
                 return 'Главная страница';
+            case "messages":
+                return "Сообщения";
             case "personal":
                 return 'Личный кабинет';
             case "registration":
