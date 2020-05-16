@@ -48,6 +48,7 @@ switch ($page) {
     case 'tutor' : {
         if (key_exists('id', $_GET)) {
             $fullTutorInfo = Database::getInstance()->getFullTutorInfo($_GET['id']);
+            $bind['tutor'] = $fullTutorInfo['tutor'];
             if ($bind['tutor'] != null) {
                 $bind['tutor'] = $fullTutorInfo['tutor'];
                 $bind['tutorAvatar'] = $bind['tutor']['avatarId'] == null ? "/images/avatar.png" : "/backend/images.php?id=".$bind['tutor']['avatarId'];
