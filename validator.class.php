@@ -32,7 +32,7 @@ class Validator {
     );
 
     private static $requiredContactFields = array(
-        'email' => array('name' => 'E-mail', 'type' => 'string'),
+        'email' => array('name' => 'E-mail', 'type' => 'email'),
         'msg' => array('name' => 'Текст сообщения', 'type' => 'string')
     );
 
@@ -60,8 +60,10 @@ class Validator {
                     $result = "Поле '".$field['name']."' должно содержать целое число (в промежутке от ".$field['options']['options']['min_range']." до ".$field['options']['options']['max_range'] .")";
                 break;
             }
-            case 'bigint': {
-
+            case 'email': {
+                if (filter_var($value, FILTER_VALIDATE_EMAIL) === false)
+                    $result = "Поле '".$field['name']."' должно содержать корректный e-mail";
+                break;
             }
         }
         return $result;
@@ -176,12 +178,6 @@ class Validator {
         $fieldValidation = self::validateFields($info, self::$requiredContactFields);
         if ($fieldValidation)
             return $fieldValidation;
-        if (!preg_match("/^.+@.+$/", $info['email'])) {
-            return 'Некорректный email';
-        }
-        if ($info['msg'] == '') {
-            return 'Необходимо ввести текст сообщения';
-        }
         return false;
     }
 }
