@@ -276,10 +276,11 @@ class Database {
 
     public function fetchContacts($usrId) {
         $result = $this->executePreparedQuery("", 
-            'WITH contacts AS (SELECT "from", "to" FROM "data".messages WHERE "from" = $1 OR "to" = $1) 
+            'WITH contacts AS (SELECT DISTINCT "from", "to" FROM "data".messages WHERE "from" = $1 OR "to" = $1) 
             SELECT id, login, name, surname, patronymic, avatar_id 
             FROM "data".users, contacts 
-            WHERE id !=$1 AND (id = "from" OR id = "from");', 
+            WHERE id !=$1 AND (id = "from" OR id = "from")
+            ORDER BY surname, name, patronymic;', 
             array($usrId));
         $contacts = false;
         if ($result !== FALSE) {

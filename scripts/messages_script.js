@@ -20,10 +20,9 @@ const Messages = {
         this.fetch(to);
     },
     async fetch(to){ 
-        this.messages.setAttribute('hidden', '');
         this.spinner.classList.add('loader');
         while (this.messages.firstChild)
-            this.messages.removeChild(myNode.lastChild);
+            this.messages.removeChild(this.messages.lastChild);
         fetch(`/backend/messages.php?i=${to}`)
             .then(response => {
                 if (response.status == 200) {
@@ -34,7 +33,6 @@ const Messages = {
                     );
                 }
                 this.spinner.classList.remove('loader');
-                this.messages.removeAttribute('hidden');
             })
             .catch(error =>  { 
                console.log('Request failed', error) 
@@ -60,6 +58,10 @@ const Messages = {
                console.log('Request failed', error) 
             });
     },
+    async switchTo(id) {
+        to = id;
+        this.fetch(to);
+    }
 }
 
 Messages.init();

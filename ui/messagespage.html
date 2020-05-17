@@ -20,10 +20,10 @@
                 У вас пока нет сообщений
             </div>
         {else}
-            <ul class="contacts d-flex flex-grow-1 p-3">
+            <ul class="contacts d-flex flex-column flex-grow-1 p-3">
                 {foreach from=$contacts item=contact}
                 <li>
-                    <button onclick="to={$contact.id};">
+                    <button onclick="Messages.switchTo({$contact.id});">
                         <div class="d-flex p-2">
                             <img src="/backend/images.php?id={$contact.avatarId}" class="md-avatar rounded-circle col-3">
                             <h2>{$contact.surname|escape} {$contact.name|escape}{if $contact.patronymic != null} {$contact.patronymic|escape}{/if}</h2>
